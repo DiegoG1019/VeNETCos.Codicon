@@ -1,0 +1,9 @@
+﻿<Application x:Class="VeNETCos.Codicon.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VeNETCos.Codicon"
+             StartupUri="UI/Windows/MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
