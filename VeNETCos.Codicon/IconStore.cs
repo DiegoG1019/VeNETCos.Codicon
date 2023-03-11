@@ -1,11 +1,12 @@
-﻿using System.Drawing;
+﻿using System.Collections.Concurrent;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
 namespace VeNETCos.Codicon;
 
-public static class Helper
+public static class IconStore
 {
     public static ImageSource? GetIcon(string path)
     {
