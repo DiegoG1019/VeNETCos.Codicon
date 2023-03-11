@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.Database.Contexts;
+using VeNETCos.Codicon.Database.Models;
 
 namespace VeNETCos.Codicon.UI.Pages;
 /// <summary>
@@ -19,8 +21,12 @@ namespace VeNETCos.Codicon.UI.Pages;
 /// </summary>
 public partial class EntryPage : Page
 {
+    public List<Box> boxes { get; set; }
     public EntryPage()
     {
         InitializeComponent();
+        using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
+
+        boxes = context.Boxes.First().Children.ToList();
     }
 }
