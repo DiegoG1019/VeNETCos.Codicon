@@ -6,7 +6,7 @@ public class BoxedApp
     private string path;
 
     public Guid Id { get; init; }
-    public virtual ICollection<AppBox> Boxes { get; init; } = Array.Empty<AppBox>();
+    public virtual ICollection<AppBox> Boxes { get; init; } = new List<AppBox>();
 
     [MemberNotNull(nameof(path))]
     public string Path 

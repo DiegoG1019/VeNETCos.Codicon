@@ -2,7 +2,7 @@
 public class AppBox
 {
     public Guid Id { get; init; }
-    public virtual ICollection<BoxedApp> Apps { get; init; } = Array.Empty<BoxedApp>();
+    public virtual ICollection<BoxedApp> Apps { get; init; } = new List<BoxedApp>();
 
     public AppBox? Parent { get; set; }
     public string? Title { get; set; }

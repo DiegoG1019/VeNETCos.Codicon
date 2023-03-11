@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
 #if DEBUG
-        Database.EnsureDeleted();
+        //Database.EnsureDeleted();
 #endif
         Database.EnsureCreated();
     }
