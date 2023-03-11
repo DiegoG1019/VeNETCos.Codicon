@@ -27,8 +27,8 @@ internal class Program
         var box = context.Boxes.First();
         var app = context.FileLinks.First();
 
-        var appmodel = new BoxedAppViewModel(context, app);
-        var boxmodel = new AppBoxViewModel(context, box);
+        var appmodel = new FileLinkViewModel(context, app);
+        var boxmodel = new BoxViewModel(context, box);
         appmodel.Boxes.Add(boxmodel);
 
         foreach (var b in appmodel.Boxes)

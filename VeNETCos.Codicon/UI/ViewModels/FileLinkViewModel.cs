@@ -9,13 +9,13 @@ using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public class BoxedAppViewModel : BaseViewModel//, IToManyRelationModelView<AppBox, BoxedApp>
+public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, FileLink>
 {
     private readonly AppDbContext context;
     private readonly FileLink app;
-    //private readonly CrossRelationshipCollection<AppBox, BoxedApp> relations;
+    private readonly CrossRelationshipCollection<Box, FileLink> relations;
 
-    public BoxedAppViewModel(AppDbContext context, FileLink app)
+    public FileLinkViewModel(AppDbContext context, FileLink app)
     {
         if (context.FileLinks.Find(app.Id) is null)
         {
@@ -25,11 +25,11 @@ public class BoxedAppViewModel : BaseViewModel//, IToManyRelationModelView<AppBo
 
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.app = app ?? throw new ArgumentNullException(nameof(app));
-        //relations = new(context, app);
-        //Boxes = new ModelCrossRelationCollection<AppBoxViewModel, AppBox, BoxedAppViewModel, BoxedApp>(relations, m => new AppBoxViewModel(context, m));
+        relations = new(context, app);
+        Boxes = new ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink>(relations, m => new BoxViewModel(context, m));
     }
 
-    public ICollection<AppBoxViewModel> Boxes { get; }
+    public ICollection<BoxViewModel> Boxes { get; }
 
     public string Path
     {
@@ -46,8 +46,8 @@ public class BoxedAppViewModel : BaseViewModel//, IToManyRelationModelView<AppBo
         }
     }
 
-    //IToManyRelation<AppBox> IToManyRelationModelView<AppBox, BoxedApp>.RelationModel => app;
-    //BoxedApp IToManyRelationModelView<AppBox, BoxedApp>.Model => app;
+    IToManyRelation<Box> IToManyRelationModelView<Box, FileLink>.RelationModel => app;
+    FileLink IToManyRelationModelView<Box, FileLink>.Model => app;
 
     protected override bool PropertyHasChanged(string property)
     {

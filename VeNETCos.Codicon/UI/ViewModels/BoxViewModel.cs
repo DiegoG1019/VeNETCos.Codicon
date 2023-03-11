@@ -4,15 +4,16 @@ using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public class AppBoxViewModel : BaseViewModel//, IToManyRelationModelView<BoxedApp, AppBox>
+public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Box>
 {
     private readonly AppDbContext context;
     private readonly Box box;
-    //private readonly CrossRelationshipCollection<BoxedApp, AppBox> relations;
+    private readonly CrossRelationshipCollection<FileLink, Box> relations;
+    private readonly ParentToChildrenRelationshipCollection<Box, Box> children;
 
-    private AppBoxViewModel? parent;
+    private BoxViewModel? parent;
 
-    public AppBoxViewModel(AppDbContext context, Box box)
+    public BoxViewModel(AppDbContext context, Box box)
     {
         if (context.Boxes.Find(box.Id) is null)
         {
@@ -20,15 +21,17 @@ public class AppBoxViewModel : BaseViewModel//, IToManyRelationModelView<BoxedAp
             context.SaveChanges();
         }
 
-        //relations = new(context, box);
+        relations = new(context, box);
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.box = box ?? throw new ArgumentNullException(nameof(box));
-        //Apps = new ModelCrossRelationCollection<BoxedAppViewModel, BoxedApp, AppBoxViewModel, AppBox>(relations, m => new BoxedAppViewModel(context, m));
+        children = new(context, box);
+        Apps = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
+        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(context, m));
     }
 
-    public ICollection<BoxedAppViewModel> Apps { get; }
+    public ICollection<FileLinkViewModel> Apps { get; }
 
-    public AppBoxViewModel? Parent
+    public BoxViewModel? Parent
     {
         get => parent;
         set
@@ -38,6 +41,8 @@ public class AppBoxViewModel : BaseViewModel//, IToManyRelationModelView<BoxedAp
             box.Parent = parent?.box;
         }
     }
+
+    public ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box> Children { get; }
 
     public string? Title
     {
@@ -63,6 +68,6 @@ public class AppBoxViewModel : BaseViewModel//, IToManyRelationModelView<BoxedAp
         return true;
     }
 
-    //IToManyRelation<BoxedApp> IToManyRelationModelView<BoxedApp, AppBox>.RelationModel => box;
-    //AppBox IToManyRelationModelView<BoxedApp, AppBox>.Model => box;
+    IToManyRelation<FileLink> IToManyRelationModelView<FileLink, Box>.RelationModel => box;
+    Box IToManyRelationModelView<FileLink, Box>.Model => box;
 }
