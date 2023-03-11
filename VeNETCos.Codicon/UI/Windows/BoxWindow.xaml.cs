@@ -30,6 +30,9 @@ public partial class BoxWindow : Window
     
     readonly ILogger Log;
     private static BoxWindow? activeInstance;
+    private MainModel DataModel => (MainModel)DataContext;
+
+    readonly object MainContent;
 
     public BoxWindow()
     {
@@ -39,5 +42,15 @@ public partial class BoxWindow : Window
         Log = LoggerStore.GetLogger(this);
         Log.Information("Initialized BoxWindow");
         DataContext = new MainModel(null);
+        MainContent = Content;
+
+        Content = new UserLoginView() { DataContext = DataModel };
+
+        DataModel.NavigatingToMainScreen += DataModel_NavigatingToMainScreen;
+    }
+
+    private void DataModel_NavigatingToMainScreen()
+    {
+        Content = MainContent;
     }
 }
