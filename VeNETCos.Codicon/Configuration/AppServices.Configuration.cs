@@ -16,6 +16,6 @@ public static partial class AppServices
     private static void BuildServices(ServiceCollection s, IConfiguration conf)
     {
         s.AddLogging(x => x.AddSerilog());
-        s.AddDbContext<AppDbContext>(x => x.UseSqlite(conf.GetConnectionString("LocalDb")));
+        s.AddDbContext<AppDbContext>(x => x.UseSqlite(string.Format(conf.GetConnectionString("LocalDb")!, AppConfiguration.UserProfile)));
     }
 }

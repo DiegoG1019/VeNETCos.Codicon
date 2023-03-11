@@ -6,10 +6,21 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 
 public abstract class BaseViewModel : INotifyPropertyChanged
 {
-    private string? lastError;
     private readonly List<string> errors = new();
 
+    protected readonly ILogger Log;
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected BaseViewModel()
+    {
+        Log = LoggerStore.GetLogger(this);
+    }
+
+    protected virtual void OnInit()
+    {
+        Log.Information("Initialized new instance of model");
+    }
 
     /// <summary>
     /// Called right before a property's change is notified
@@ -47,27 +58,26 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         NotifyPropertyChanged(caller);
     }
 
-    public void AddModelError(string error)
+    protected void AddModelError(string error)
     {
         ArgumentException.ThrowIfNullOrEmpty(error);
         errors.Add(error);
-        LastError = error;
+        NotifyPropertyChanged(nameof(Errors));
     }
+
+    public bool Validate()
+    {
+        ClearModelErrors();
+        return Validating();
+    }
+
+    protected virtual bool Validating() => true;
 
     public void ClearModelErrors()
     {
         errors.Clear();
-        LastError = null;
+        NotifyPropertyChanged(nameof(Errors));
     }
 
-    public void ClearLastError()
-    {
-        LastError = null;
-    }
-
-    public string? LastError 
-    { 
-        get => lastError; 
-        private set => NotifyPropertyChanged(ref lastError, value); 
-    }
+    public IEnumerable<string> Errors => errors;
 }

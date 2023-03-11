@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon.UI.Pages
 {
@@ -20,14 +21,35 @@ namespace VeNETCos.Codicon.UI.Pages
     /// </summary>
     public partial class UserLoginView : Page
     {
-        public UserLoginView()
+        readonly ILogger Log;
+
+        public UserLoginViewModel DataModel { get; private set; }
+
+        public UserLoginView(UserLoginViewModel model)
         {
             InitializeComponent();
+            Log = LoggerStore.GetLogger(this);
+            DataContext = new UserLoginViewModel();
+            Log.Information("Initialized Login Screen");
+
+            DataContext = DataModel = model;
+
+            DataContextChanged += UserLoginView_DataContextChanged;
+        }
+
+        private void UserLoginView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is not UserLoginViewModel dm)
+                throw new InvalidOperationException("Cannot set the DataContext of a UserLoginView to anything other than a UserLoginViewModel");
+            DataModel = dm;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Clicked");
+            if (DataModel.Validate() is false) return;
+
+            AppConfiguration.UserProfile = DataModel.Name!.Trim();
+            Log.Information("Set user login information to {login}", AppConfiguration.UserProfile);
         }
     }
 }

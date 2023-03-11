@@ -12,7 +12,7 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, FileLink>
 {
     private readonly AppDbContext context;
-    private readonly FileLink app;
+    private readonly FileLink fileLink;
     private readonly CrossRelationshipCollection<Box, FileLink> relations;
 
     public FileLinkViewModel(AppDbContext context, FileLink app)
@@ -24,7 +24,7 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
         }
 
         this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.app = app ?? throw new ArgumentNullException(nameof(app));
+        this.fileLink = app ?? throw new ArgumentNullException(nameof(app));
         relations = new(context, app);
         Boxes = new ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink>(relations, m => new BoxViewModel(context, m));
     }
@@ -33,21 +33,26 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
 
     public string Path
     {
-        get => app.Path;
+        get => fileLink.Path;
         set
         {
-            if (app.Path == value) return;
+            if (fileLink.Path == value) return;
             if (Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute) is false)
             {
                 AddModelError(Language.Errors.InvalidPathError);
                 return;
             }
-            app.Path = NotifyPropertyChanged(app.Path, value);
+            fileLink.Path = NotifyPropertyChanged(fileLink.Path, value);
         }
     }
 
-    IToManyRelation<Box> IToManyRelationModelView<Box, FileLink>.RelationModel => app;
-    FileLink IToManyRelationModelView<Box, FileLink>.Model => app;
+    protected override void OnInit()
+    {
+        Log.Information("Initialized new model for FileLink {fileLink}", fileLink);
+    }
+
+    IToManyRelation<Box> IToManyRelationModelView<Box, FileLink>.RelationModel => fileLink;
+    FileLink IToManyRelationModelView<Box, FileLink>.Model => fileLink;
 
     protected override bool PropertyHasChanged(string property)
     {

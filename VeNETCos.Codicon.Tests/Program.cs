@@ -36,7 +36,7 @@ internal class Program
 
         foreach (var b in appmodel.Boxes)
             Console.WriteLine(b.Title ?? "No Title");
-        foreach (var a in boxmodel.Apps)
+        foreach (var a in boxmodel.LinkedFiles)
             Console.WriteLine(a.Path);
     }
 

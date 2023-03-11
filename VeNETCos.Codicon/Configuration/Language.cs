@@ -28,7 +28,8 @@ public static class Language
         curr = new Lang(
             new ErrorsLang(
                 InvalidPathError: "The entered path is invalid",
-                UsernameNullError: "Username cannot be empty"
+                UsernameNullError: "Username cannot be empty",
+                InvalidUsernameError: "The provided username is invalid"
             )
         );
     }

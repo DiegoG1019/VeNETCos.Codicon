@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 namespace VeNETCos.Codicon.UI.ViewModels;
 public class MainModel : BaseViewModel
 {
-    private BoxViewModel currentBox;
+    private BoxViewModel? currentBox;
 
-    public BoxViewModel CurrentBox 
+    public UserLoginViewModel UserLogin { get; } = new();
+
+    public BoxViewModel? CurrentBox 
     { 
         get => currentBox; 
         set
@@ -19,7 +21,7 @@ public class MainModel : BaseViewModel
         }
     }
 
-    public MainModel(BoxViewModel currentBox)
+    public MainModel(BoxViewModel? currentBox)
     {
         this.currentBox = currentBox ?? throw new ArgumentNullException(nameof(currentBox));
     }

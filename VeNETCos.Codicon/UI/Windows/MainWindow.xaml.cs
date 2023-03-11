@@ -2,6 +2,8 @@
 using Serilog;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Services.Containers;
+using VeNETCos.Codicon.UI.Pages;
+using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon;
 /// <summary>
@@ -9,16 +11,13 @@ namespace VeNETCos.Codicon;
 /// </summary>
 public partial class MainWindow : Window
 {
+    readonly ILogger Log;
+
     public MainWindow()
     {
         InitializeComponent();
-        AyoINeedTheDatabase_EXAMPLE();
-    }
-
-    public void AyoINeedTheDatabase_EXAMPLE()
-    {
-        using var s = AppServices.GetServices<AppDbContext>().Get(out var context);
-
-        context.SaveChanges(); // nice
+        Log = LoggerStore.GetLogger(this);
+        Log.Information("Initialized MainWindow");
+        DataContext = new MainModel(null);
     }
 }

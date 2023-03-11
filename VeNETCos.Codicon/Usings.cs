@@ -5,6 +5,7 @@ global using System.Text;
 global using System.Threading.Tasks;
 global using System.IO;
 global using System.Windows.Media;
+global using Serilog;
 
 global using VeNETCos.Codicon.Configuration;
 global using VeNETCos.Codicon.Database;

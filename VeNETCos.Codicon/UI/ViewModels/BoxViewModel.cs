@@ -25,11 +25,11 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.box = box ?? throw new ArgumentNullException(nameof(box));
         children = new(context, box);
-        Apps = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
+        LinkedFiles = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
         Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(context, m));
     }
 
-    public ICollection<FileLinkViewModel> Apps { get; }
+    public ICollection<FileLinkViewModel> LinkedFiles { get; }
 
     public BoxViewModel? Parent
     {
@@ -43,6 +43,11 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
     }
 
     public ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box> Children { get; }
+
+    protected override void OnInit()
+    {
+        Log.Information("Initialized new model for Box {box}", box);
+    }
 
     public string? Title
     {
