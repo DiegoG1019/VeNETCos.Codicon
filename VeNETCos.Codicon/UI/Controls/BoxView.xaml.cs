@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 
-namespace VeNETCos.Codicon.UI.Pages;
+namespace VeNETCos.Codicon.UI.Controls;
 /// <summary>
 /// Interaction logic for EntryPage.xaml
 /// </summary>
-public partial class EntryPage : Page
+public partial class BoxView : Page
 {
     public List<Box> boxes { get; set; }
-    public EntryPage()
+    public BoxView()
     {
         InitializeComponent();
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);

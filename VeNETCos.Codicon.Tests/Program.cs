@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+using VeNETCos.Codicon.Configuration;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
@@ -41,31 +44,21 @@ internal class Program
     {
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
 
-        //context.Database.EnsureDeleted();
+        LoggerStore.GetLogger("");
+
         context.Database.EnsureCreated();
 
-        //context.Boxes.Add(new Box(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
+        StringBuilder sb = new();
 
-        //var fl1 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo1.txt"));
-        //var fl2 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo2.txt"));
-        //var fl3 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo3.txt"));
-
-        //context.FileLinks.Add(fl1);
-        //context.FileLinks.Add(fl2);
-
-        //context.SaveChanges();
-
-        var box = context.Boxes.First();
-        var app = context.FileLinks.First();
-
-        var x = new CrossRelationshipCollection<FileLink, Box>(context, box);
-
-        foreach (var i in x)
+        foreach (var b in context.Boxes)
         {
-            Console.WriteLine("For file {0} ({1}):", i.Id, Path.GetFileName(i.Path));
-            foreach (var b in i.Boxes)
-                Console.WriteLine(b.Title);
+            sb.AppendLine($"Box > {b}");
+
+            foreach (var fl in b.FileLinks)
+                sb.AppendLine($" \tFileLink > {fl}");
         }
+
+        Console.WriteLine(sb.ToString());
     }
 
     static void DbTest()
@@ -84,7 +77,7 @@ internal class Program
         Box box = context.Boxes.First();
         FileLink app = context.FileLinks.First();
 
-        box.Apps.Add(app);
+        box.FileLinks.Add(app);
         app.Boxes.Add(box);
 
         context.SaveChanges();
@@ -92,7 +85,7 @@ internal class Program
         context.Boxes.ForEachAsync(box =>
         {
             Console.WriteLine(box.Id);
-            Console.WriteLine(box.Apps.Count);
+            Console.WriteLine(box.FileLinks.Count);
         });
     }
 }

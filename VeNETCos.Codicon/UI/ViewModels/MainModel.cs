@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VeNETCos.Codicon.UI.ViewModels;
+public class MainModel : BaseViewModel
+{
+    private BoxViewModel currentBox;
+
+    public BoxViewModel CurrentBox 
+    { 
+        get => currentBox; 
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            NotifyPropertyChanged(ref currentBox, value);
+        }
+    }
+
+    public MainModel(BoxViewModel currentBox)
+    {
+        this.currentBox = currentBox ?? throw new ArgumentNullException(nameof(currentBox));
+    }
+}
