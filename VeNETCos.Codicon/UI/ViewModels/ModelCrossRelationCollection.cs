@@ -47,22 +47,37 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
         => viewModels.ContainsKey(item.Model);
 
     public void CopyTo(TRelatedModelView[] array, int arrayIndex)
-        => viewModels.CopyTo(array, arrayIndex);
+    {
+        Update();
+        viewModels.Values.CopyTo(array, arrayIndex);
+    }
 
-    public bool Remove(TRelatedModelView item) 
-        => collection.Remove(item.Model) && viewModels.Remove(item);
+    public bool Remove(TRelatedModelView item)
+    {
+        Update();
+        return collection.Remove(item.Model) && viewModels.Remove(item.Model, out _);
+    }
 
     public int Count => viewModels.Count;
     public bool IsReadOnly => false;
 
     public IEnumerator<TRelatedModelView> GetEnumerator()
-        => viewModels.GetEnumerator();
+    {
+        Update();
+        return viewModels.Values.GetEnumerator();
+    }
 
     IEnumerator IEnumerable.GetEnumerator()
-        => viewModels.GetEnumerator();
+    {
+        Update();
+        return viewModels.GetEnumerator();
+    }
 
     private void Update()
     {
+        foreach (var m in viewModels)
+            if (collection.Contains(m.Key))
+                collection.Remove(m.Key);
         foreach (var m in collection)
             if (viewModels.ContainsKey(m) is false)
                 viewModels.Add(m, ModelFactory(m));
