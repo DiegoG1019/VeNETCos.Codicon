@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeNETCos.Codicon", "VeNETCos.Codicon\VeNETCos.Codicon.csproj", "{2298B180-965A-48F0-B41C-FAC16FD0C7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeNETCos.Codicon", "VeNETCos.Codicon\VeNETCos.Codicon.csproj", "{2298B180-965A-48F0-B41C-FAC16FD0C7C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeNETCos.Codicon.Tests", "VeNETCos.Codicon.Tests\VeNETCos.Codicon.Tests.csproj", "{28CB6857-F472-42B9-9651-5C1EF45EB586}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2298B180-965A-48F0-B41C-FAC16FD0C7C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2298B180-965A-48F0-B41C-FAC16FD0C7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2298B180-965A-48F0-B41C-FAC16FD0C7C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

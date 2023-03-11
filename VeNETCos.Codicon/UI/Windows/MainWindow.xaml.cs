@@ -19,8 +19,6 @@ public partial class MainWindow : Window
     {
         using var s = AppServices.GetServices<AppDbContext>().Get(out var context);
 
-        context.TestModels.Add(new Database.Models.TestModel()); // yay
-
         context.SaveChanges(); // nice
     }
 }
