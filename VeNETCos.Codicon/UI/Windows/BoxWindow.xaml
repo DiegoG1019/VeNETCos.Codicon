@@ -11,7 +11,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         >
-    <Border
+    <Border x:Name="MainView"
         CornerRadius="30"
         >
         <Grid>

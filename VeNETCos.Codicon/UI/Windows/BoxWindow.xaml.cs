@@ -37,7 +37,7 @@ public partial class BoxWindow : Window
         activeInstance = this;
 
         Log = LoggerStore.GetLogger(this);
-        Log.Information("Initialized MainWindow");
+        Log.Information("Initialized BoxWindow");
         DataContext = new MainModel(null);
     }
 }

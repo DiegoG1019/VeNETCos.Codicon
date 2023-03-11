@@ -11,18 +11,14 @@ public class MainModel : BaseViewModel
 
     public UserLoginViewModel UserLogin { get; } = new();
 
-    public BoxViewModel? CurrentBox 
-    { 
-        get => currentBox; 
-        set
-        {
-            ArgumentNullException.ThrowIfNull(value);
-            NotifyPropertyChanged(ref currentBox, value);
-        }
+    public BoxViewModel? CurrentBox
+    {
+        get => currentBox;
+        set => NotifyPropertyChanged(ref currentBox, value);
     }
 
     public MainModel(BoxViewModel? currentBox)
     {
-        this.currentBox = currentBox ?? throw new ArgumentNullException(nameof(currentBox));
+        this.currentBox = currentBox;
     }
 }
