@@ -10,7 +10,31 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        DbCollectionsTest();   
+        ModelCollectionsTest();   
+    }
+
+    static void ModelCollectionsTest()
+    {
+        using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
+
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        context.AppBoxes.Add(new AppBox(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
+        context.BoxedApps.Add(new BoxedApp(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
+        context.SaveChanges();
+
+        var box = context.AppBoxes.First();
+        var app = context.BoxedApps.First();
+
+        var appmodel = new BoxedAppViewModel(context, app);
+        var boxmodel = new AppBoxViewModel(context, box);
+        appmodel.Boxes.Add(boxmodel);
+
+        foreach (var b in appmodel.Boxes)
+            Console.WriteLine(b.Title ?? "No Title");
+        foreach (var a in boxmodel.Apps)
+            Console.WriteLine(a.Path);
     }
 
     static void DbCollectionsTest()
