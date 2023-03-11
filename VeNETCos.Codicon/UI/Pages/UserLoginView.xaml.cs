@@ -45,6 +45,8 @@ namespace VeNETCos.Codicon.UI.Pages
         {
             if (DataModel.Validate() is false) return;
 
+            ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
+
             AppConfiguration.UserProfile = DataModel.Name!.Trim();
             Log.Information("Set user login information to {login}", AppConfiguration.UserProfile);
         }

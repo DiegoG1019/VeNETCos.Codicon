@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       d:DesignHeight="700" d:DesignWidth="1200"
       Title="UserLoginView"
-      d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
+      d:DataContext="{d:DesignInstance Type=viewmodels:MainModel}"
       >
     <Border
         CornerRadius="30"
@@ -19,6 +19,7 @@
             </Grid.RowDefinitions>
             <local1:TopBar/>
             <Border Grid.Row="1" CornerRadius="0,0,30,30" Background="#e8ebda" Opacity="0.9">
+                <Label Content="" x:Name="ErrorLabel"  Margin="20,20,20,20" Width="250" HorizontalAlignment="Right" Foreground="Red" />
             </Border>
             <Grid Grid.Row="1">
                 <StackPanel
@@ -53,7 +54,7 @@
                             BorderThickness="0,0,0,0"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            Text="{Binding Path=Name, Mode=TwoWay}"
+                            Text="{Binding Path=UserLogin.Name, Mode=TwoWay}"
                         ></TextBox>
                     </Border>
                     <Button 
