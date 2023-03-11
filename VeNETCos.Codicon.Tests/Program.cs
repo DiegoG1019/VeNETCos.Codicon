@@ -59,11 +59,6 @@ internal class Program
         var app = context.FileLinks.First();
 
         var x = new CrossRelationshipCollection<FileLink, Box>(context, box);
-        //{
-        //    fl1,
-        //    fl2,
-        //    fl3
-        //};
 
         foreach (var i in x)
         {
