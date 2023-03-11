@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VeNETCos.Codicon.Configuration.LanguageModules;
 public sealed record class ErrorsLang(
-    string InvalidPathError
+    string InvalidPathError,
+    string UsernameNullError
 );
 

@@ -41,8 +41,9 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         comparer ??= EqualityComparer<T>.Default;
 
         if (comparer.Equals(field, value))
-            field = value;
+            return;
 
+        field = value;
         NotifyPropertyChanged(caller);
     }
 
