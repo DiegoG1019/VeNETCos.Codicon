@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.UI.Windows;
 
 namespace VeNETCos.Codicon.UI.Controls
 {
@@ -25,10 +26,18 @@ namespace VeNETCos.Codicon.UI.Controls
             InitializeComponent();
         }
 
-        //private void MinimizeBtn_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-        //private void MaximizeBtn_Click(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            BoxWindow.ActiveInstance.WindowState = WindowState.Minimized;
+        }
+        private void MaximizeBtn_Click(object sender, RoutedEventArgs e) => BoxWindow.ActiveInstance.WindowState = BoxWindow.ActiveInstance.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
 
+        private void CloseBtn_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
-        //private void CloseBtn_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                BoxWindow.ActiveInstance.DragMove();
+        }
     }
 }

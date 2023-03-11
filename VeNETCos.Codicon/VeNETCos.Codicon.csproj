@@ -10,6 +10,21 @@
 
   <ItemGroup>
     <None Remove="UI\Controls\TORAKO-ISO.png" />
+    <None Remove="UI\Resources\dashboard.png" />
+    <None Remove="UI\Resources\dashboard.svg" />
+    <None Remove="UI\Resources\fun.png" />
+    <None Remove="UI\Resources\games.png" />
+    <None Remove="UI\Resources\heart.png" />
+    <None Remove="UI\Resources\mortarboard.png" />
+    <None Remove="UI\Resources\on-time.png" />
+    <None Remove="UI\Resources\prueba.jpg" />
+    <None Remove="UI\Resources\safebox.png" />
+    <None Remove="UI\Resources\stats-circular-filled-graphic.png" />
+    <None Remove="UI\Resources\suitcase.png" />
+    <None Remove="UI\Resources\TORAKO-FILE.png" />
+    <None Remove="UI\Resources\TORAKO-ISO.png" />
+    <None Remove="UI\Resources\TORAKO-TOP.png" />
+    <None Remove="UI\Resources\TORAKO-TOPOPEN.png" />
     <None Remove="UI\ViewModels\BaseViewModel.cs~RF61182e7e.TMP" />
   </ItemGroup>
 
@@ -28,6 +43,21 @@
 
   <ItemGroup>
     <Resource Include="UI\Controls\TORAKO-ISO.png" />
+    <Resource Include="UI\Resources\dashboard.png" />
+    <Resource Include="UI\Resources\dashboard.svg" />
+    <Resource Include="UI\Resources\fun.png" />
+    <Resource Include="UI\Resources\games.png" />
+    <Resource Include="UI\Resources\heart.png" />
+    <Resource Include="UI\Resources\mortarboard.png" />
+    <Resource Include="UI\Resources\on-time.png" />
+    <Resource Include="UI\Resources\prueba.jpg" />
+    <Resource Include="UI\Resources\safebox.png" />
+    <Resource Include="UI\Resources\stats-circular-filled-graphic.png" />
+    <Resource Include="UI\Resources\suitcase.png" />
+    <Resource Include="UI\Resources\TORAKO-FILE.png" />
+    <Resource Include="UI\Resources\TORAKO-ISO.png" />
+    <Resource Include="UI\Resources\TORAKO-TOP.png" />
+    <Resource Include="UI\Resources\TORAKO-TOPOPEN.png" />
   </ItemGroup>
 
   <ItemGroup>

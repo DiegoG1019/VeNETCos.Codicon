@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              
              >
-    <Border Padding="15,5,15,0" CornerRadius="30,30,0,0" Background="#e1dae1">
+    <Border Padding="15,5,15,0" CornerRadius="30,30,0,0" Background="#e1dae1" MouseDown="Border_MouseDown">
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -32,7 +32,7 @@
                                 Height="40" Width="40" 
                                 BorderThickness="0" 
                                 FontSize="40" 
-                                Command="{Binding MinimizeCommand}"
+                                Click="MinimizeBtn_Click"
                                 VerticalAlignment="Stretch"
                                 >
 
@@ -44,6 +44,7 @@
                                 Height="40" Width="40"  
                                 BorderThickness="0" 
                                 FontSize="30" 
+                                Click="MaximizeBtn_Click"
       
                                 >
                     <Border BorderBrush="{x:Null}" Height="40">
@@ -53,8 +54,8 @@
                 <Button x:Name="CloseBtn"
                                 Height="40" Width="40"  
                                 BorderThickness="0" 
-                                 FontSize="30" 
-            
+                                FontSize="30" 
+                                Click="CloseBtn_Click"
                                 >
                     <Border BorderBrush="{x:Null}" Height="40">
                         <TextBlock TextWrapping="Wrap" Text="X" VerticalAlignment="Center"/>
