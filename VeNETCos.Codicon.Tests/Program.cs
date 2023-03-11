@@ -10,7 +10,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        ModelCollectionsTest();   
+        DbCollectionsTest();   
     }
 
     static void ModelCollectionsTest()
@@ -20,12 +20,12 @@ internal class Program
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
-        context.AppBoxes.Add(new AppBox(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
-        context.BoxedApps.Add(new BoxedApp(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
+        context.Boxes.Add(new Box(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
+        context.FileLinks.Add(new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
         context.SaveChanges();
 
-        var box = context.AppBoxes.First();
-        var app = context.BoxedApps.First();
+        var box = context.Boxes.First();
+        var app = context.FileLinks.First();
 
         var appmodel = new BoxedAppViewModel(context, app);
         var boxmodel = new AppBoxViewModel(context, box);
@@ -41,24 +41,36 @@ internal class Program
     {
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
 
-        context.Database.EnsureDeleted();
+        //context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
-        context.AppBoxes.Add(new AppBox(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
-        context.BoxedApps.Add(new BoxedApp(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
-        context.SaveChanges();
+        //context.Boxes.Add(new Box(Guid.NewGuid(), "cajita dinda", "amo a mi cajita", 0));
 
-        var box = context.AppBoxes.First();
-        var app = context.BoxedApps.First();
+        //var fl1 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo1.txt"));
+        //var fl2 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo2.txt"));
+        //var fl3 = new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo3.txt"));
 
-        var x = new CrossRelationshipCollection<BoxedApp, AppBox>(context, box);
-        var newApp = new BoxedApp(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt"));
+        //context.FileLinks.Add(fl1);
+        //context.FileLinks.Add(fl2);
 
-        x.Add(app);
-        x.Add(newApp);
+        //context.SaveChanges();
+
+        var box = context.Boxes.First();
+        var app = context.FileLinks.First();
+
+        var x = new CrossRelationshipCollection<FileLink, Box>(context, box);
+        //{
+        //    fl1,
+        //    fl2,
+        //    fl3
+        //};
 
         foreach (var i in x)
-            Console.WriteLine(x.Count);
+        {
+            Console.WriteLine("For file {0} ({1}):", i.Id, Path.GetFileName(i.Path));
+            foreach (var b in i.Boxes)
+                Console.WriteLine(b.Title);
+        }
     }
 
     static void DbTest()
@@ -68,24 +80,24 @@ internal class Program
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
-        context.AppBoxes.Add(new AppBox(Guid.NewGuid(), "Mi caja", "Mi cajita linda", 0));
-        context.BoxedApps.Add(new BoxedApp(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
+        context.Boxes.Add(new Box(Guid.NewGuid(), "Mi caja", "Mi cajita linda", 0));
+        context.FileLinks.Add(new FileLink(Guid.NewGuid(), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Archivo.txt")));
         context.SaveChanges();
 
-        Console.WriteLine(context.AppBoxes.Count());
+        Console.WriteLine(context.Boxes.Count());
 
-        AppBox box = context.AppBoxes.First();
-        BoxedApp app = context.BoxedApps.First();
+        Box box = context.Boxes.First();
+        FileLink app = context.FileLinks.First();
 
         box.Apps.Add(app);
         app.Boxes.Add(box);
 
         context.SaveChanges();
 
-        context.AppBoxes.ForEachAsync(box =>
+        context.Boxes.ForEachAsync(box =>
         {
             Console.WriteLine(box.Id);
-            Console.WriteLine(box.Apps.Count());
+            Console.WriteLine(box.Apps.Count);
         });
     }
 }

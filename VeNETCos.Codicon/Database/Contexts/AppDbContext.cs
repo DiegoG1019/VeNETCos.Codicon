@@ -8,8 +8,8 @@ using VeNETCos.Codicon.Database.Models;
 namespace VeNETCos.Codicon.Database.Contexts;
 public class AppDbContext : DbContext
 {
-    public DbSet<BoxedApp> BoxedApps => Set<BoxedApp>();
-    public DbSet<AppBox> AppBoxes => Set<AppBox>();
+    public DbSet<FileLink> FileLinks => Set<FileLink>();
+    public DbSet<Box> Boxes => Set<Box>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -22,24 +22,23 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder mb)
     {
         base.OnModelCreating(mb);
-        ConfigureAppModel(mb.Entity<BoxedApp>());
-        ConfigureBoxModel(mb.Entity<AppBox>());
+        ConfigureAppModel(mb.Entity<FileLink>());
+        ConfigureBoxModel(mb.Entity<Box>());
 
         SeedDatabase(mb);
     }
 
-    private static void ConfigureBoxModel(EntityTypeBuilder<AppBox> mb)
+    private static void ConfigureBoxModel(EntityTypeBuilder<Box> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.HasMany(x => x.Apps).WithMany();
+        mb.HasMany(x => x.Apps).WithMany(x => x.Boxes);
         mb.HasOne(x => x.Parent).WithMany(x => x.Children);
         mb.Navigation(x => x.Apps).AutoInclude();
     }
 
-    private static void ConfigureAppModel(EntityTypeBuilder<BoxedApp> mb)
+    private static void ConfigureAppModel(EntityTypeBuilder<FileLink> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.HasMany(x => x.Boxes).WithMany(x => x.Apps);
     }
 
     private static void SeedDatabase(ModelBuilder mb)

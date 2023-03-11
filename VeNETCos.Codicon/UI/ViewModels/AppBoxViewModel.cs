@@ -7,16 +7,16 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class AppBoxViewModel : BaseViewModel//, IToManyRelationModelView<BoxedApp, AppBox>
 {
     private readonly AppDbContext context;
-    private readonly AppBox box;
+    private readonly Box box;
     //private readonly CrossRelationshipCollection<BoxedApp, AppBox> relations;
 
     private AppBoxViewModel? parent;
 
-    public AppBoxViewModel(AppDbContext context, AppBox box)
+    public AppBoxViewModel(AppDbContext context, Box box)
     {
-        if (context.AppBoxes.Find(box.Id) is null)
+        if (context.Boxes.Find(box.Id) is null)
         {
-            context.AppBoxes.Add(box);
+            context.Boxes.Add(box);
             context.SaveChanges();
         }
 

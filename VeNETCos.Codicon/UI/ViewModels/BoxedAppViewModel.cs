@@ -12,14 +12,14 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class BoxedAppViewModel : BaseViewModel//, IToManyRelationModelView<AppBox, BoxedApp>
 {
     private readonly AppDbContext context;
-    private readonly BoxedApp app;
+    private readonly FileLink app;
     //private readonly CrossRelationshipCollection<AppBox, BoxedApp> relations;
 
-    public BoxedAppViewModel(AppDbContext context, BoxedApp app)
+    public BoxedAppViewModel(AppDbContext context, FileLink app)
     {
-        if (context.BoxedApps.Find(app.Id) is null)
+        if (context.FileLinks.Find(app.Id) is null)
         {
-            context.BoxedApps.Add(app);
+            context.FileLinks.Add(app);
             context.SaveChanges();
         }
 
