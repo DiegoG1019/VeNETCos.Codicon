@@ -8,6 +8,8 @@ namespace VeNETCos.Codicon.Database.Contexts;
 public class AppDbContext : DbContext
 {
     public DbSet<TestModel> TestModels => Set<TestModel>();
+    public DbSet<App> Apps => Set<App>();
+    public DbSet<AppBox> AppBoxes => Set<AppBox>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
