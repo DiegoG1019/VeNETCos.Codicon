@@ -1,5 +1,6 @@
 ﻿namespace VeNETCos.Codicon.Database.Models;
-public class AppBox
+public class AppBox :
+    IToManyRelation<BoxedApp>
 {
     public Guid Id { get; init; }
     public virtual ICollection<BoxedApp> Apps { get; init; } = new List<BoxedApp>();
@@ -16,4 +17,6 @@ public class AppBox
         Description = description;
         Color = color;
     }
+
+    ICollection<BoxedApp> IToManyRelation<BoxedApp>.Relation => Apps;
 }

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 namespace VeNETCos.Codicon.Database.Models;
-public class BoxedApp
+public class BoxedApp :
+    IToManyRelation<AppBox>
 {
     private string path;
 
@@ -20,4 +21,6 @@ public class BoxedApp
         Id = id;
         Path = path ?? throw new ArgumentNullException(nameof(path));
     }
+
+    ICollection<AppBox> IToManyRelation<AppBox>.Relation => Boxes;
 }
