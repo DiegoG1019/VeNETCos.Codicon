@@ -25,14 +25,11 @@ namespace VeNETCos.Codicon.UI.Pages
 
         public UserLoginViewModel DataModel { get; private set; }
 
-        public UserLoginView(UserLoginViewModel model)
+        public UserLoginView()
         {
             InitializeComponent();
             Log = LoggerStore.GetLogger(this);
-            DataContext = new UserLoginViewModel();
             Log.Information("Initialized Login Screen");
-
-            DataContext = DataModel = model;
 
             DataContextChanged += UserLoginView_DataContextChanged;
         }
