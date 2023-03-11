@@ -36,9 +36,18 @@ namespace VeNETCos.Codicon.UI.Pages
 
         private void UserLoginView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is not UserLoginViewModel dm)
-                throw new InvalidOperationException("Cannot set the DataContext of a UserLoginView to anything other than a UserLoginViewModel");
-            DataModel = dm;
+            if (e.NewValue is UserLoginViewModel dm)
+            {
+                DataModel = dm;
+                return;
+            }
+            if (e.NewValue is MainModel mm)
+            {
+                DataModel = mm.UserLogin;
+                return;
+            }
+
+            throw new InvalidOperationException("Cannot set the DataContext of a UserLoginView to anything other than a UserLoginViewModel");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
