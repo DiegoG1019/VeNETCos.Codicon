@@ -12,7 +12,8 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="26"/>
         </Grid.RowDefinitions>
-        <Label Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Center"/>
-        <Image HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64"/>
+        <Label Content="Mi cajita preshosha" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch"/>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color}"/>
+        <Image HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64" Grid.Row="0"/>
     </Grid>
 </UserControl>

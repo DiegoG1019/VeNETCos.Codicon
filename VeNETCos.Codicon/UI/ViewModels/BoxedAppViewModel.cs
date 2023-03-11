@@ -9,11 +9,11 @@ using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public class BoxedAppViewModel : BaseViewModel, IToManyRelationModelView<AppBox, BoxedApp>
+public class BoxedAppViewModel : BaseViewModel//, IToManyRelationModelView<AppBox, BoxedApp>
 {
     private readonly AppDbContext context;
     private readonly BoxedApp app;
-    private readonly CrossRelationshipCollection<AppBox, BoxedApp> relations;
+    //private readonly CrossRelationshipCollection<AppBox, BoxedApp> relations;
 
     public BoxedAppViewModel(AppDbContext context, BoxedApp app)
     {
@@ -25,8 +25,8 @@ public class BoxedAppViewModel : BaseViewModel, IToManyRelationModelView<AppBox,
 
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.app = app ?? throw new ArgumentNullException(nameof(app));
-        relations = new(context, app);
-        Boxes = new ModelCrossRelationCollection<AppBoxViewModel, AppBox, BoxedAppViewModel, BoxedApp>(relations, m => new AppBoxViewModel(context, m));
+        //relations = new(context, app);
+        //Boxes = new ModelCrossRelationCollection<AppBoxViewModel, AppBox, BoxedAppViewModel, BoxedApp>(relations, m => new AppBoxViewModel(context, m));
     }
 
     public ICollection<AppBoxViewModel> Boxes { get; }
@@ -46,8 +46,8 @@ public class BoxedAppViewModel : BaseViewModel, IToManyRelationModelView<AppBox,
         }
     }
 
-    IToManyRelation<AppBox> IToManyRelationModelView<AppBox, BoxedApp>.RelationModel => app;
-    BoxedApp IToManyRelationModelView<AppBox, BoxedApp>.Model => app;
+    //IToManyRelation<AppBox> IToManyRelationModelView<AppBox, BoxedApp>.RelationModel => app;
+    //BoxedApp IToManyRelationModelView<AppBox, BoxedApp>.Model => app;
 
     protected override bool PropertyHasChanged(string property)
     {

@@ -3,7 +3,8 @@ public class AppBox :
     IToManyRelation<BoxedApp>
 {
     public Guid Id { get; init; }
-    public virtual ICollection<BoxedApp> Apps { get; init; } = new List<BoxedApp>();
+    public virtual ICollection<BoxedApp> Apps { get; init; } = new HashSet<BoxedApp>();
+    public virtual ICollection<AppBox> Children { get; init; } = new HashSet<AppBox>();
 
     public AppBox? Parent { get; set; }
     public string? Title { get; set; }

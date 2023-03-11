@@ -31,8 +31,9 @@ public class AppDbContext : DbContext
     private static void ConfigureBoxModel(EntityTypeBuilder<AppBox> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.HasMany(x => x.Apps).WithMany(x => x.Boxes);
-        mb.HasOne(x => x.Parent).WithMany();
+        mb.HasMany(x => x.Apps).WithMany();
+        mb.HasOne(x => x.Parent).WithMany(x => x.Children);
+        mb.Navigation(x => x.Apps).AutoInclude();
     }
 
     private static void ConfigureAppModel(EntityTypeBuilder<BoxedApp> mb)
