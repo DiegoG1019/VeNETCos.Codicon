@@ -6,7 +6,7 @@ public class BoxedApp
     private string path;
 
     public Guid Id { get; init; }
-    public virtual ICollection<AppBox> Boxes { get; init; }
+    public virtual ICollection<AppBox> Boxes { get; init; } = Array.Empty<AppBox>();
 
     [MemberNotNull(nameof(path))]
     public string Path 
@@ -15,10 +15,9 @@ public class BoxedApp
         set => path = value ?? throw new ArgumentNullException(nameof(value)); 
     }
 
-    public BoxedApp(Guid id, ICollection<AppBox> boxes, string path)
+    public BoxedApp(Guid id, string path)
     {
         Id = id;
-        Boxes = boxes ?? throw new ArgumentNullException(nameof(boxes));
         Path = path ?? throw new ArgumentNullException(nameof(path));
     }
 }
