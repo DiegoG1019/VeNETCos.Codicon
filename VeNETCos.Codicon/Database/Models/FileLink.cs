@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace VeNETCos.Codicon.Database.Models;
 public class FileLink :
@@ -20,6 +21,11 @@ public class FileLink :
     {
         Id = id;
         Path = path ?? throw new ArgumentNullException(nameof(path));
+    }
+
+    public void Open()
+    {
+        new Process { StartInfo = new ProcessStartInfo(Path) { UseShellExecute = true } }.Start();
     }
 
     ICollection<Box> IToManyRelation<Box>.Relation => Boxes;
