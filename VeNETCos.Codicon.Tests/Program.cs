@@ -27,8 +27,8 @@ internal class Program
         var box = context.Boxes.First();
         var app = context.FileLinks.First();
 
-        var appmodel = new BoxedAppViewModel(context, app);
-        var boxmodel = new AppBoxViewModel(context, box);
+        var appmodel = new FileLinkViewModel(context, app);
+        var boxmodel = new BoxViewModel(context, box);
         appmodel.Boxes.Add(boxmodel);
 
         foreach (var b in appmodel.Boxes)
@@ -59,11 +59,6 @@ internal class Program
         var app = context.FileLinks.First();
 
         var x = new CrossRelationshipCollection<FileLink, Box>(context, box);
-        //{
-        //    fl1,
-        //    fl2,
-        //    fl3
-        //};
 
         foreach (var i in x)
         {

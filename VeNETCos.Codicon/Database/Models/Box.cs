@@ -1,6 +1,9 @@
 ﻿namespace VeNETCos.Codicon.Database.Models;
 public class Box :
-    IToManyRelation<FileLink>
+    IToManyRelation<FileLink>,
+    IOneToManyRelation<Box, Box>,
+    IToOneRelation<Box>,
+    IID
 {
     public Guid Id { get; init; }
     public virtual ICollection<FileLink> Apps { get; init; } = new HashSet<FileLink>();
@@ -20,4 +23,13 @@ public class Box :
     }
 
     ICollection<FileLink> IToManyRelation<FileLink>.Relation => Apps;
+
+    ICollection<Box> IOneToManyRelation<Box, Box>.Many => Children;
+    Box IOneToManyRelation<Box, Box>.One => this;
+
+    Box? IToOneRelation<Box>.Related
+    {
+        get => Parent;
+        set => Parent = value;
+    }
 }

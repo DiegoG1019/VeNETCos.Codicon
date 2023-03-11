@@ -76,8 +76,8 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
     private void Update()
     {
         foreach (var m in viewModels)
-            if (collection.Contains(m.Key))
-                collection.Remove(m.Key);
+            if (collection.Contains(m.Key) is false)
+                viewModels.Remove(m.Key);
         foreach (var m in collection)
             if (viewModels.ContainsKey(m) is false)
                 viewModels.Add(m, ModelFactory(m));

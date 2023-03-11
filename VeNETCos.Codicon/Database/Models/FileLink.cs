@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace VeNETCos.Codicon.Database.Models;
 public class FileLink :
-    IToManyRelation<Box>
+    IToManyRelation<Box>,
+    IID
 {
     private string path;
 
