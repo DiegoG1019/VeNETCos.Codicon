@@ -1,24 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace VeNETCos.Codicon;
+
 public static class Helper
 {
-}
+    public static ImageSource? GetIcon(string path)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
-public class StringInvariantIgnoreCaseComparison : IEqualityComparer<string>
-{
-    public bool Equals(string? x, string? y)
-        => x.Equals(y, StringComparison.InvariantCultureIgnoreCase);
+        if (File.Exists(path))
+        {
+            var sysicon = Icon.ExtractAssociatedIcon(path);
+            if (sysicon is null) return null;
+            using (sysicon)
+                return Imaging.CreateBitmapSourceFromHIcon(
+                    sysicon.Handle,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions()
+                );
+        }
 
-    public int GetHashCode([DisallowNull] string obj)
-        => obj.ToLowerInvariant().GetHashCode();
-
-    private StringInvariantIgnoreCaseComparison() { }
-
-    public static StringInvariantIgnoreCaseComparison Instance { get; } = new();
+        return null;
+    }
 }
