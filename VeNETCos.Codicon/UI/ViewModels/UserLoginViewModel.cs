@@ -14,6 +14,7 @@ public class UserLoginViewModel : BaseViewModel
         get => name;
         set
         {
+            Console.WriteLine("Changed");
             if (string.IsNullOrWhiteSpace(value))
             {
                 ClearModelErrors();

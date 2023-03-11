@@ -1,0 +1,98 @@
+﻿<Page x:Class="VeNETCos.Codicon.UI.Pages.UserLoginView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Pages" xmlns:local1="clr-namespace:VeNETCos.Codicon.UI.Controls" xmlns:viewmodels="clr-namespace:VeNETCos.Codicon.UI.ViewModels"
+      mc:Ignorable="d"
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="UserLoginView"
+      d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
+      >
+    <Border
+        CornerRadius="30"
+        >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <local1:TopBar/>
+            <Border Grid.Row="1" CornerRadius="0,0,30,30" Background="#e8ebda" Opacity="0.9">
+            </Border>
+            <Grid Grid.Row="1">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Width="500"
+                    
+                    >
+                    <TextBlock
+                        FontSize="60"
+                        Text="Welcome!"
+                        FontWeight="Bold"
+                        TextAlignment="Center"
+                    />
+                    <TextBlock
+                        FontSize="40"
+                        Text="Glad to see you here."
+                        TextWrapping="Wrap"
+                        FontWeight="DemiBold"
+                        TextAlignment="Center"
+                    />
+                    <Border
+                        BorderBrush="Black" BorderThickness="1"
+                        Background="White"
+                        Margin="0,30,0,0"
+                        CornerRadius="10">
+                        <TextBox 
+                            x:Name="Username"
+                            Padding="10"
+                            Height="50"
+                            VerticalContentAlignment="Center"
+                            BorderThickness="0,0,0,0"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Text="{Binding Path=Name, Mode=TwoWay}"
+                        ></TextBox>
+                    </Border>
+                    <Button 
+                        BorderThickness="0"
+                        Padding="10"
+                        Content="Login"
+
+                        FontSize="20"
+                        Cursor="Hand"
+                        Click="Button_Click"
+                        >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#00C178"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF059A62"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border 
+                                    BorderBrush="Black" BorderThickness="1"
+                                    Background="{TemplateBinding Background}"
+                                    Margin="0,30,0,0"
+                                    CornerRadius="10"
+                                    Height="50" Cursor=""
+                                    >
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Page>

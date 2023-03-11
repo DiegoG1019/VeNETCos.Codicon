@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
+using VeNETCos.Codicon.UI.Pages;
 
 namespace VeNETCos.Codicon.UI.Windows;
 /// <summary>
@@ -24,6 +25,8 @@ public partial class BoxWindow : Window
     public BoxWindow()
     {
         InitializeComponent();
+        UserLoginView view = new UserLoginView();
+        Content = view;
         //DbCollectionsTest();
     }
 

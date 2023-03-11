@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Windows"
+        xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Windows" xmlns:local1="clr-namespace:VeNETCos.Codicon.UI.Controls"
         mc:Ignorable="d"
-        Title="BoxWindow" Height="600" Width="1200"
+        Title="BoxWindow" Height="700" Width="1200"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -16,68 +16,39 @@
         >
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Padding="15,5,15,0" CornerRadius="30,30,0,0" Background="#e1dae1" MouseDown="Border_MouseDown">
-                <Grid Grid.Row="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/UI/Resources/TORAKO-ISO.png"
-                       Stretch="Fill"
-                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Text="torako" 
-                           VerticalAlignment="Center"
-                           Margin="15,0,0,0"
-                           FontSize="20"
-                           FontWeight="Bold">
-                        </TextBlock>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Button x:Name="MinimizeBtn" 
-                                Height="40" Width="40" 
-                                BorderThickness="0" 
-                                FontSize="40" 
-                                Click="MinimizeBtn_Click"
-                                VerticalAlignment="Stretch"
-                                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border
+                CornerRadius="30,0,0,30"
+                Background="White"
+                Grid.RowSpan="2"
+                Panel.ZIndex="2"
+            >
+                <StackPanel
+                    Margin="10"
+                >
+                    <Image Margin="0,0,0,20" Source="/UI/Resources/TORAKO-ISO.png"/>
+                    <Image Margin="10" Source="/UI/Resources/dashboard.png"/>
+                    <Image Margin="10" Source="/UI/Resources/stats-circular-filled-graphic.png" />
+                    <Image Margin="10" Source="/UI/Resources/heart.png" />
+                    <Image Margin="10" Source="/UI/Resources/suitcase.png" />
+                    <Image Margin="10" Source="/UI/Resources/mortarboard.png" />
+                    <Image Margin="10" Source="/UI/Resources/games.png" />
+                    <Image Margin="10" Source="/UI/Resources/fun.png" />
+                    <Image Margin="10" Source="/UI/Resources/safebox.png" />
+                    <Image Margin="10" Source="/UI/Resources/on-time.png" />
 
-                            <Border BorderBrush="{x:Null}" Height="40">
-                                <TextBlock TextWrapping="Wrap" Text="-" VerticalAlignment="Center"/>
-                            </Border>
-                        </Button>
-                        <Button x:Name="MaximizeBtn"  
-                                Height="40" Width="40"  
-                                BorderThickness="0" 
-                                FontSize="30" 
-                                Click="MaximizeBtn_Click"
-                                >
-                            <Border BorderBrush="{x:Null}" Height="40">
-                                <TextBlock TextWrapping="Wrap" Text="◻" VerticalAlignment="Center"/>
-                            </Border>
-                        </Button>
-                        <Button x:Name="CloseBtn"
-                                Height="40" Width="40"  
-                                BorderThickness="0" 
-                                 FontSize="30" 
-                                Click="CloseBtn_Click"
-                                >
-                            <Border BorderBrush="{x:Null}" Height="40">
-                                <TextBlock TextWrapping="Wrap" Text="X" VerticalAlignment="Center"/>
-                            </Border>
-                        </Button>
 
-                    </StackPanel>
-                </Grid>
-
+                </StackPanel>                
             </Border>
-            <Border Grid.Row="1" CornerRadius="0,0,30,30" Background="#e8ebda" Opacity="0.9">
+            <local1:TopBar Grid.ColumnSpan="2"/>
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="0,0,30,0" Background="#e8ebda" Opacity="0.9">
+
             </Border>
         </Grid>
     </Border>
