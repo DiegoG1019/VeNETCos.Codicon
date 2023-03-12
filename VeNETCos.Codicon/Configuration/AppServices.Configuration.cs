@@ -15,7 +15,10 @@ public static partial class AppServices
 {
     private static void BuildServices(ServiceCollection s, IConfiguration conf)
     {
+        var dbd = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "torako", AppConfiguration.UserProfile);
+        Directory.CreateDirectory(dbd);
+
         s.AddLogging(x => x.AddSerilog());
-        s.AddDbContext<AppDbContext>(x => x.UseSqlite(string.Format(conf.GetConnectionString("LocalDb")!, AppConfiguration.UserProfile)));
+        s.AddDbContext<AppDbContext>(x => x.UseSqlite($"Data Source={dbd}/user_data.db;"));
     }
 }

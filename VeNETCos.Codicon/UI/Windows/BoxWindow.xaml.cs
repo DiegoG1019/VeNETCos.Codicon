@@ -56,6 +56,6 @@ public partial class BoxWindow : Window
     {
         Content = MainContent;
         Services = AppServices.GetServices<AppDbContext>().Get(out var context);
-        DataModel.CurrentBox = new BoxViewModel(context, context.PrimaryBox);
+        DataModel.CurrentBox = new BoxViewModel(context, context.PrimaryBoxWithChildren);
     }
 }

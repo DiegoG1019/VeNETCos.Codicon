@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="UI\Controls\TORAKO-ISO.png" />
+    <None Remove="UI\Controls\TORAKO-TOPOPEN.png" />
     <None Remove="UI\Resources\dashboard.png" />
     <None Remove="UI\Resources\dashboard.svg" />
     <None Remove="UI\Resources\fun.png" />
@@ -51,6 +52,7 @@
 
   <ItemGroup>
     <Resource Include="UI\Controls\TORAKO-ISO.png" />
+    <Resource Include="UI\Controls\TORAKO-TOPOPEN.png" />
     <Resource Include="UI\Resources\dashboard.png" />
     <Resource Include="UI\Resources\dashboard.svg" />
     <Resource Include="UI\Resources\fun.png" />

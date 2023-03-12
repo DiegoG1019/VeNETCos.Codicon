@@ -63,7 +63,7 @@
                         Opacity="0.5"
                 >
                     <Grid>
-                        
+                        <local1:BoxView DataContext="{Binding CurrentBox}"/>
                     </Grid>
                 </Border>
 

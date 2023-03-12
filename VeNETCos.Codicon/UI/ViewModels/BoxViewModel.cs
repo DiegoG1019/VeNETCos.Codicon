@@ -1,4 +1,5 @@
-﻿using VeNETCos.Codicon.Database.Contexts;
+﻿using System.Windows.Media.Imaging;
+using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
 
@@ -21,15 +22,21 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
             context.SaveChanges();
         }
 
+        Image = new BitmapImage(new("/UI/Resources/TORAKO-TOPOPEN.png", UriKind.Relative));
         relations = new(context, box);
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.box = box ?? throw new ArgumentNullException(nameof(box));
         children = new(context, box);
         LinkedFiles = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
         Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(context, m));
+
+        var c = $"#{box.Color.ToString("X").PadRight(8, '0')}";
+        FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom(c)!;
     }
 
     public ICollection<FileLinkViewModel> LinkedFiles { get; }
+
+    public ImageSource Image { get; }
 
     public BoxViewModel? Parent
     {
@@ -49,6 +56,8 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         Log.Information("Initialized new model for Box {box}", box);
     }
 
+    public Brush FillColor { get; private set; }
+
     public string? Title
     {
         get => box.Title;
@@ -64,7 +73,15 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
     public int Color
     {
         get => box.Color;
-        set => box.Color = NotifyPropertyChanged(box.Color, value);
+        set
+        {
+            if(box.Color == value) return;
+            box.Color = value;
+            NotifyPropertyChanged();
+
+            FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom($"#{box.Color.ToString("X").PadRight(8, '0')}")!;
+            NotifyPropertyChanged(nameof(FillColor));
+        }
     }
 
     protected override bool PropertyHasChanged(string property)

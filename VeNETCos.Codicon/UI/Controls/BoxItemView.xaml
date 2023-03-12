@@ -6,14 +6,20 @@
              xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Controls" xmlns:viewmodels="clr-namespace:VeNETCos.Codicon.UI.ViewModels" 
              d:DataContext="{d:DesignInstance Type=viewmodels:BoxViewModel}"
              mc:Ignorable="d" 
+             MaxHeight="98" MinHeight="98"
+             MaxWidth="120" MinWidth="120"
              d:DesignHeight="98" d:DesignWidth="120">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="26"/>
         </Grid.RowDefinitions>
-        <Label Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch"/>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color}"/>
-        <Image HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64" Grid.Row="0"/>
+        <Label Content="{Binding Title}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch"/>
+        <Rectangle x:Name="BgRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding FillColor}"/>
+        <Rectangle HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64" Grid.Row="0">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/UI/Resources/TORAKO-TOPOPEN.png" Stretch="Uniform"/>
+            </Rectangle.Fill>
+        </Rectangle>
     </Grid>
 </UserControl>

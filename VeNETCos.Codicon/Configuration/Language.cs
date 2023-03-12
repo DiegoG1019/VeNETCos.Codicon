@@ -33,7 +33,7 @@ public static class Language
             ),
             new UserLogin(
                 WelcomeMessage: "Welcome!",
-                WelcomeMessageSmall: "Glad to ese you here.",
+                WelcomeMessageSmall: "Glad to see you here.",
                 LoginButton: "Login"
             )
         );
