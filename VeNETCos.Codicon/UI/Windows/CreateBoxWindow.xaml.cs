@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.UI.ViewModels;
@@ -30,14 +31,20 @@ public partial class CreateBoxWindow : Window
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
         CreateBoxViewModel dataContext = (CreateBoxViewModel)DataContext;
-        Box newBox = new Box(new Guid(), dataContext.Name, dataContext.Description,0);
-        Box currentBox = BoxWindow.ActiveInstance.DataModel.CurrentBox.GetBox();
-        newBox.Parent = currentBox;
+        
+        using (AppServices.GetServices<AppDbContext>().Get(out var context))
+        {
+            Box newBox = new(new Guid(), dataContext.Name, dataContext.Description, int.MaxValue);
+        
+            Guid cboxId = BoxWindow.ActiveInstance.DataModel!.CurrentBox!.CurrentBoxId;
+            Box currentBox = context.Boxes.Include(x => x.Parent).First(x => x.Id == cboxId);
 
-        using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
-        context.Boxes.Add(newBox);
-        currentBox.Children.Add(newBox);
-        context.SaveChanges();
+            context.Boxes.Add(newBox);
+            newBox.Parent = currentBox;
+            currentBox.Children.Add(newBox);
+            context.SaveChanges();
+        }
+
         BoxWindow.ActiveInstance.DataModel.CurrentBox.Update();
         Close();
     }
@@ -52,5 +59,4 @@ public partial class CreateBoxWindow : Window
     {
         Close();
     }
-
 }

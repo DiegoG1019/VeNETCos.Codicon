@@ -1,11 +1,13 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
 public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, TManyModelView, TManyModel> 
-    : ICollection<TManyModelView>
+    : ICollection<TManyModelView>, INotifyCollectionChanged
     where TOneModelView : class
     where TManyModelView : class, IModelView<TManyModel>
     where TOneModel : class, IID
@@ -28,12 +30,22 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
 
     public void Update()
     {
+        bool changed = false;
         foreach (var m in viewModels)
             if (collection.Contains(m.Key) is false)
+            {
                 viewModels.Remove(m.Key);
+                changed = true;
+            }
         foreach (var m in collection)
             if (viewModels.ContainsKey(m.Id) is false)
+            {
                 viewModels.Add(m.Id, ModelFactory(m));
+                changed = true;
+            }
+
+        if (changed)
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
     public void Add(TManyModelView item)
@@ -44,6 +56,7 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
             {
                 var m = collection.RelatedQuery(context, item.ModelId);
                 viewModels.Add(item.ModelId, ModelFactory(m));
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
@@ -55,6 +68,7 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
     {
         collection.Clear();
         viewModels.Clear();
+        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
     public bool Contains(TManyModelView item)
@@ -72,6 +86,7 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
     public bool Remove(TManyModelView item)
     {
         viewModels.Remove(item.ModelId);
+        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         return collection.Remove(item.ModelId);
     }
 
@@ -89,4 +104,6 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
         Update();
         return viewModels.Values.GetEnumerator();
     }
+
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
 }

@@ -14,6 +14,8 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
 
     private BoxViewModel? parent;
 
+    public Guid CurrentBoxId => boxId;
+
     public BoxViewModel(Guid box)
     {
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
@@ -37,16 +39,6 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         colorCache = bbox.Color;
     }
 
-    public Box GetBox()
-    {
-        Box box;
-        using (AppServices.GetDbContext(out var context))
-        {
-            box = context.Boxes.Include(x => x.Parent).First(x => x.Id == boxId);
-        }
-        return box;
-    }
-    
     public static CrossRelationshipCollection<FileLink, Box> CreateCrossRelationshipCollectionForBox(Guid boxId)
         => new(
             boxId, 
