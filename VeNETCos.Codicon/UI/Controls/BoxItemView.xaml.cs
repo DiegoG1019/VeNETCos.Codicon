@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.UI.ViewModels;
+using VeNETCos.Codicon.UI.Windows;
 
 namespace VeNETCos.Codicon.UI.Controls;
 /// <summary>
@@ -22,5 +24,10 @@ public partial class BoxItemView : UserControl
     public BoxItemView()
     {
         InitializeComponent();
+    }
+
+    private void BgRect_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        BoxWindow.ActiveInstance.DataModel.CurrentBox = (BoxViewModel)DataContext;
     }
 }

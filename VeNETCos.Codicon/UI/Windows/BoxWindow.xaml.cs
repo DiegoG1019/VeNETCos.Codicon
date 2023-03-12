@@ -32,7 +32,7 @@ public partial class BoxWindow : Window
     readonly ILogger Log;
     private static BoxWindow? activeInstance;
 
-    private MainModel DataModel => (MainModel)DataContext;
+    public MainModel DataModel => (MainModel)DataContext;
     private ServicesContainer<AppDbContext>? Services;
 
     readonly object MainContent;
