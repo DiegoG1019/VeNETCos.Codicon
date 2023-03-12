@@ -31,6 +31,6 @@ public partial class FileLinkView : UserControl
 
     private void FileLinkView_Drop(object sender, DragEventArgs e)
     {
-        e.
+        
     }
 }
