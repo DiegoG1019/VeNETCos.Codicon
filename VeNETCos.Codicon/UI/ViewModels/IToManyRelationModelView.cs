@@ -2,19 +2,22 @@
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public interface IToManyRelationModelView<TRelatedModel, TMainModel> 
+public interface IToManyRelationModelView<TRelatedModel, TMainModel>
+    : IModelView<TMainModel>
+    where TMainModel : IToManyRelation<TRelatedModel>, IID
+    where TRelatedModel : IID
 {
-    public IToManyRelation<TRelatedModel> RelationModel { get; }
-    public TMainModel Model { get; }
 }
 
 public interface IModelView<TModel>
+    where TModel : IID
 {
-    public TModel Model { get; }
+    public Guid ModelId { get; }
 }
 
 public interface IToOneRelationModelView<TMainModel, TRelated>
+    : IModelView<TMainModel>
+    where TMainModel : IToOneRelation<TRelated>, IID
+    where TRelated : IID
 {
-    public IToOneRelation<TRelated> RelationModel { get; }
-    public TMainModel Model { get; }
 }
