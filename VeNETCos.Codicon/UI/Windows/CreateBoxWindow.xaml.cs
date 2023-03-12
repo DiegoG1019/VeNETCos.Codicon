@@ -32,14 +32,17 @@ public partial class CreateBoxWindow : Window
       
         
        
-       CreateBoxViewModel dataContext = (CreateBoxViewModel)DataContext;
-       Box newBox = new Box(new Guid(), dataContext.Name, dataContext.Description,0);
+        CreateBoxViewModel dataContext = (CreateBoxViewModel)DataContext;
+        Box newBox = new Box(new Guid(), dataContext.Name, dataContext.Description,0);
         Box currentBox = BoxWindow.ActiveInstance.DataModel.CurrentBox.GetBox();
-       newBox.Parent = currentBox;
+        newBox.Parent = currentBox;
 
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
         context.Boxes.Add(newBox);
-       currentBox.Children.Add(newBox);
+        currentBox.Children.Add(newBox);
+        context.SaveChanges();
+        BoxWindow.ActiveInstance.DataModel.CurrentBox.Update();
+        Close();
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
