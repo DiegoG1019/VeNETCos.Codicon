@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
+using VeNETCos.Codicon.Services.Containers;
 using VeNETCos.Codicon.Types;
 using VeNETCos.Codicon.UI.Pages;
 using VeNETCos.Codicon.UI.ViewModels;
@@ -30,7 +31,9 @@ public partial class BoxWindow : Window
     
     readonly ILogger Log;
     private static BoxWindow? activeInstance;
+
     private MainModel DataModel => (MainModel)DataContext;
+    private ServicesContainer<AppDbContext>? Services;
 
     readonly object MainContent;
 
@@ -52,5 +55,7 @@ public partial class BoxWindow : Window
     private void DataModel_NavigatingToMainScreen()
     {
         Content = MainContent;
+        Services = AppServices.GetServices<AppDbContext>().Get(out var context);
+        DataModel.CurrentBox = new BoxViewModel(context, context.PrimaryBox);
     }
 }

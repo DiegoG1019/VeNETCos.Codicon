@@ -8,7 +8,6 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class MainModel : BaseViewModel
 {
     private BoxViewModel? currentBox;
-    private bool isInLoginScreen;
 
     public UserLoginViewModel UserLogin { get; } = new();
 
