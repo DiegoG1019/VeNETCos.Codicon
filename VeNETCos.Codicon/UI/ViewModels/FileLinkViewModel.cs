@@ -12,7 +12,7 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 
 public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, FileLink>, IModelView<FileLink>
 {
-    private readonly Guid fileLink;
+    public Guid FileLinkId { get; private set; }
     private readonly CrossRelationshipCollection<Box, FileLink> relations;
 
     private static ImageSource? DefaultIcon;
@@ -23,7 +23,7 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
         using var services = AppServices.GetDbContext(out var context);
         var fl = context.FileLinks.Include(x => x.Boxes).FirstOrDefault(x => x.Id == fileLink) ?? throw new ArgumentException("Could not find a FileLink by the given ID", nameof(fileLink));
 
-        this.fileLink = fileLink;
+        this.FileLinkId = fileLink;
 
         relations = new(fileLink, (c, i) => c.FileLinks.First(x => x.Id == i), (c, i) => c.Boxes.Include(x => x.FileLinks).First(x => x.Id == i));
 
@@ -45,7 +45,7 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
 
             using (AppServices.GetDbContext(out var context))
             {
-                var fl = context.FileLinks.First(x => x.Id == fileLink);
+                var fl = context.FileLinks.First(x => x.Id == FileLinkId);
                 fl.Path = value;
                 Name = fl.Name;
                 context.SaveChanges();
@@ -63,7 +63,7 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
     
     protected override void OnInit()
     {
-        Log.Information("Initialized new model for FileLink {fileLink}", fileLink);
+        Log.Information("Initialized new model for FileLink {fileLink}", FileLinkId);
     }
 
     protected override bool PropertyHasChanged(string property)
@@ -76,5 +76,5 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
         Boxes.Update();
     }
 
-    Guid IModelView<FileLink>.ModelId => fileLink;
+    Guid IModelView<FileLink>.ModelId => FileLinkId;
 }
