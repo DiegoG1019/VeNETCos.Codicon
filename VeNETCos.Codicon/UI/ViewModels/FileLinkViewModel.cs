@@ -28,11 +28,10 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
         relations = new(fileLink, (c, i) => c.FileLinks.First(x => x.Id == i), (c, i) => c.Boxes.Include(x => x.FileLinks).First(x => x.Id == i));
 
         Boxes = new ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink>(relations, m => new BoxViewModel(m.Id));
-        pathC = fl.Path;
-        Name = fl.Name;
+        Path = fl.Path;
     }
 
-    public ICollection<BoxViewModel> Boxes { get; }
+    public ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink> Boxes { get; }
 
     private string pathC;
     public string Path
@@ -41,11 +40,6 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
         set
         {
             if (pathC == value) return;
-            if (Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute) is false)
-            {
-                AddModelError(Language.Errors.InvalidPathError);
-                return;
-            }
             pathC = value;
             Icon = IconStore.GetIcon(Path) ?? DefaultIcon;
 
@@ -75,6 +69,11 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
     protected override bool PropertyHasChanged(string property)
     {
         return true;
+    }
+
+    public void Update()
+    {
+        Boxes.Update();
     }
 
     Guid IModelView<FileLink>.ModelId => fileLink;

@@ -53,7 +53,7 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
             (c, b) => c.Boxes.Contains(b)
         );
 
-    public ICollection<FileLinkViewModel> LinkedFiles { get; }
+    public ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box> LinkedFiles { get; }
 
     public ImageSource Image { get; }
 
@@ -149,6 +149,12 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
             FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom($"#{colorCache.ToString("X").PadRight(8, '0')}")!;
             NotifyPropertyChanged(nameof(FillColor));
         }
+    }
+
+    public void Update()
+    {
+        Children.Update();
+        LinkedFiles.Update();
     }
 
     Guid IModelView<Box>.ModelId => boxId;

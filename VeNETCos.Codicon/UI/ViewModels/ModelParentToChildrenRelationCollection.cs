@@ -24,12 +24,9 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
         this.collection = collection ?? throw new ArgumentNullException(nameof(collection));
 
         ModelFactory = modelFactory;
-
-        foreach (var m in collection)
-            viewModels.Add(m.Id, modelFactory(m));
     }
 
-    private void Update()
+    public void Update()
     {
         foreach (var m in viewModels)
             if (collection.Contains(m.Key) is false)
@@ -82,8 +79,14 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
     public bool IsReadOnly => false;
 
     public IEnumerator<TManyModelView> GetEnumerator()
-        => viewModels.Values.GetEnumerator();
+    {
+        Update();
+        return viewModels.Values.GetEnumerator();
+    }
 
     IEnumerator IEnumerable.GetEnumerator()
-        => viewModels.Values.GetEnumerator();
+    {
+        Update();
+        return viewModels.Values.GetEnumerator();
+    }
 }
