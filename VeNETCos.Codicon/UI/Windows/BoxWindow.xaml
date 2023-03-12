@@ -83,11 +83,21 @@
                     <local1:BoxView DataContext="{Binding CurrentBox}" Grid.Column="1"/>
                 </Grid>
 
-                    
-                
-                <Border>
-                    <local1:FileLinkView DataContext="{Binding CurrentBox}" Grid.Column="0"/>
-                </Border>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="20,0,0,0" Height="40" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Image x:Name="RandomBtn" MouseDown="RandomBtn_MouseDown"  Cursor="Hand"  Margin="0,0,0,2" Width="35" Height="35"  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/random.png" Stretch="Fill">
+                        </Image>
+                    </StackPanel>
+                    <Border Grid.Row="1">
+                        <local1:FileLinkView DataContext="{Binding CurrentBox}" Grid.Column="0"/>
+                    </Border>
+                </Grid>
+
 
             </Grid>
 

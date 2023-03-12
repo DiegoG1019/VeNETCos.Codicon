@@ -115,6 +115,27 @@ public partial class BoxWindow : Window
 
             BoxWindow.ActiveInstance.DataModel!.CurrentBox = new BoxViewModel(currentBox.Parent.Id);
         }
+    }
 
+    private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+    {
+        new CreateBoxWindow(new CreateBoxViewModel()).Show();
+    }
+
+
+    private void RandomBtn_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        using (AppServices.GetServices<AppDbContext>().Get(out var context))
+        {
+            Guid cboxId = BoxWindow.ActiveInstance.DataModel!.CurrentBox!.CurrentBoxId;
+            Box currentBox = context.Boxes.Include(x => x.FileLinks).First(x => x.Id == cboxId);
+
+            var rnd = new Random();
+
+            if (currentBox.FileLinks.Count <= 0)
+                return;
+
+            currentBox.FileLinks.OrderBy(x => rnd.Next()).Take(1).First().Open();
+        }
     }
 }
