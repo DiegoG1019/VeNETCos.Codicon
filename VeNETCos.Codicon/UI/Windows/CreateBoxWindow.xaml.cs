@@ -29,9 +29,6 @@ public partial class CreateBoxWindow : Window
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
-      
-        
-       
         CreateBoxViewModel dataContext = (CreateBoxViewModel)DataContext;
         Box newBox = new Box(new Guid(), dataContext.Name, dataContext.Description,0);
         Box currentBox = BoxWindow.ActiveInstance.DataModel.CurrentBox.GetBox();

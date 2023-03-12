@@ -59,4 +59,9 @@ public partial class BoxWindow : Window
         using (AppServices.GetServices<AppDbContext>().Get(out var context))
             DataModel.CurrentBox = new BoxViewModel(AppDbContext.PrimaryBoxGuid);
     }
+
+    private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+
+    }
 }

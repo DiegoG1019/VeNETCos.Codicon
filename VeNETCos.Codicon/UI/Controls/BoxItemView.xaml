@@ -29,7 +29,7 @@
         </Rectangle>
         <Rectangle IsHitTestVisible="False" HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64" Grid.Row="0">
             <Rectangle.Fill>
-                <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/UI/Resources/TORAKO-TOPOPEN.png" Stretch="Uniform"/>
+                <ImageBrush RenderOptions.BitmapScalingMode="Fant" ImageSource="/UI/Resources/TORAKO-TOPOPEN.png" Stretch="Uniform"/>
             </Rectangle.Fill>
         </Rectangle>
     </Grid>
