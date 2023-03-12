@@ -22,8 +22,6 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
 #if DEBUG
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
         Seed(this);
 #endif
     }
@@ -122,6 +120,8 @@ public class AppDbContext : DbContext
         {
             if (isSeeded) return;
             isSeeded = true;
+
+            context.Database.EnsureCreated();
 
             if (context.Boxes.Any(x => x.Id != PrimaryBoxGuid) || context.FileLinks.Any())
             {
