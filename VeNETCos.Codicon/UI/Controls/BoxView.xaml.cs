@@ -21,12 +21,10 @@ namespace VeNETCos.Codicon.UI.Controls;
 /// </summary>
 public partial class BoxView : Page
 {
-    public List<Box> boxes { get; set; }
     public BoxView()
     {
         InitializeComponent();
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
 
-        boxes = context.Boxes.First().Children.ToList();
     }
 }
