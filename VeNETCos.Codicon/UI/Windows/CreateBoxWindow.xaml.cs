@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ public partial class CreateBoxWindow : Window
         
         using (AppServices.GetServices<AppDbContext>().Get(out var context))
         {
-            Box newBox = new(new Guid(), dataContext.Name, dataContext.Description, int.MaxValue);
+            Box newBox = new(new Guid(), dataContext.Name, dataContext.Description, ColorTranslator.FromHtml(dataContext.Color ?? "#00000000").ToArgb());
         
             Guid cboxId = BoxWindow.ActiveInstance.DataModel!.CurrentBox!.CurrentBoxId;
             Box currentBox = context.Boxes.Include(x => x.Parent).First(x => x.Id == cboxId);

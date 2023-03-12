@@ -41,12 +41,11 @@ public partial class FileLinkItemView : UserControl
                 model = context.FileLinks.First(x => x.Id == DataModel.FileLinkId);
             model.Open();
         }
-        catch(Exception exc)
+        catch
         {
             Log.Warning("Could not start a process for FileLink {file}", DataModel);
             return;
         }
         Log.Information("Succesfully started a process for FileLink {file}", DataModel);
     }
-
 }

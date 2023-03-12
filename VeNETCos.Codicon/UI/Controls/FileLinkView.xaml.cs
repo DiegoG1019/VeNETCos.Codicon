@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.UI.ViewModels;
+using VeNETCos.Codicon.UI.Windows;
 
 namespace VeNETCos.Codicon.UI.Controls;
 /// <summary>
@@ -25,20 +27,6 @@ public partial class FileLinkView : UserControl
     public FileLinkView()
     {
         InitializeComponent();
-
-        Drop += FileLinkView_Drop;
     }
 
-    private void FileLinkView_Drop(object sender, DragEventArgs e)
-    {
-        if (e.Data.GetDataPresent(DataFormats.FileDrop))
-        {
-            // Note that you can have more than one file.
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-            // Assuming you have one file that you care about, pass it off to whatever
-            // handling code you have defined.
-            //HandleFileOpen(files[0]);
-        }
-    }
 }
