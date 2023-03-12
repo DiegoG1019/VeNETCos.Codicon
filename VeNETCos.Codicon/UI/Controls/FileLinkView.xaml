@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="VeNETCos.Codicon.UI.Controls.FileLinkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:VeNETCos.Codicon.UI.Controls"
+             xmlns:models="clr-namespace:VeNETCos.Codicon.UI.ViewModels" 
+             xmlns:viewmodels="clr-namespace:VeNETCos.Codicon.UI.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:BoxViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel 
+            Orientation="Vertical"
+            CanVerticallyScroll="True"
+        >
+            <ItemsControl ItemsSource="{Binding LinkedFiles}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:FileLinkItemView DataContext="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

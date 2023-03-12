@@ -8,6 +8,11 @@ public interface IToManyRelationModelView<TRelatedModel, TMainModel>
     public TMainModel Model { get; }
 }
 
+public interface IModelView<TModel>
+{
+    public TModel Model { get; }
+}
+
 public interface IToOneRelationModelView<TMainModel, TRelated>
 {
     public IToOneRelation<TRelated> RelationModel { get; }

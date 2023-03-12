@@ -1,15 +1,15 @@
 ﻿using System.Windows.Media.Imaging;
+using Microsoft.EntityFrameworkCore;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Box>
+public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Box>, IModelView<Box>
 {
     private readonly AppDbContext context;
     private readonly Box box;
-    private readonly CrossRelationshipCollection<FileLink, Box> relations;
     private readonly ParentToChildrenRelationshipCollection<Box, Box> children;
 
     private BoxViewModel? parent;
@@ -23,12 +23,16 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         }
 
         Image = new BitmapImage(new("/UI/Resources/TORAKO-TOPOPEN.png", UriKind.Relative));
-        relations = new(context, box);
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.box = box ?? throw new ArgumentNullException(nameof(box));
         children = new(context, box);
-        LinkedFiles = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
-        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(context, m));
+        
+        LinkedFiles = new ModelSingleRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(box, m => new FileLinkViewModel(context, m));
+
+        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(
+            children,
+            m => new BoxViewModel(context, context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).First(x => x.Id == m.Id))
+        );
 
         var c = $"#{box.Color.ToString("X").PadRight(8, '0')}";
         FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom(c)!;
@@ -92,4 +96,6 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
 
     IToManyRelation<FileLink> IToManyRelationModelView<FileLink, Box>.RelationModel => box;
     Box IToManyRelationModelView<FileLink, Box>.Model => box;
+
+    Box IModelView<Box>.Model => box;
 }
