@@ -48,13 +48,56 @@ public partial class BoxWindow : Window
         MainContent = Content;
 
         Content = new UserLoginView() { DataContext = DataModel };
+        AllowDrop = false;
+
+        Drop += BoxWindow_Drop;
 
         DataModel.NavigatingToMainScreen += DataModel_NavigatingToMainScreen;
+    }
+
+    private void BoxWindow_Drop(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            // Note that you can have more than one file.
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            using (AppServices.GetDbContext(out var context))
+            {
+                var cbi = DataModel.CurrentBox!.CurrentBoxId;
+                var cb = context.Boxes.First(x => x.Id == cbi);
+
+                foreach (var file in files)
+                {
+                    FileLink? nfl;
+                    nfl = context.FileLinks.FirstOrDefault(x => x.Path == file);
+                    if (nfl is null)
+                    {
+                        nfl = new FileLink(Guid.NewGuid(), file);
+                        context.FileLinks.Add(nfl);
+                        cb.FileLinks.Add(nfl);
+                        nfl.Boxes.Add(cb);
+                    }
+                    else
+                    {
+                        if (cb.FileLinks.Contains(nfl) is false)
+                            cb.FileLinks.Add(nfl);
+                        if (nfl.Boxes.Contains(cb) is false)
+                            nfl.Boxes.Add(cb);
+                    }
+                }
+
+                context.SaveChanges();
+            }
+
+            DataModel.CurrentBox.Update();
+        }
     }
 
     private void DataModel_NavigatingToMainScreen()
     {
         Content = MainContent;
+        AllowDrop = true;
         new CreateBoxWindow(new CreateBoxViewModel()).Show();
         using (AppServices.GetServices<AppDbContext>().Get(out var context))
             DataModel.CurrentBox = new BoxViewModel(AppDbContext.PrimaryBoxGuid);
