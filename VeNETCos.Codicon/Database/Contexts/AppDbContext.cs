@@ -8,6 +8,7 @@ using Serilog.Extensions.Logging;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Services.Static;
 using VeNETCos.Codicon.Types;
+using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon.Database.Contexts;
 public class AppDbContext : DbContext
@@ -57,15 +58,19 @@ public class AppDbContext : DbContext
                 if (readFolders.Add(dir))
                     folders.Enqueue(dir);
 
-            var pcc = new ParentToChildrenRelationshipCollection<Box, Box>(this, box);
+            Boxes.Add(box);
+            SaveChanges();
+
+            var pcc = BoxViewModel.CreateParentToChildrenRelationshipCollectionForBox(box.Id);
             while (folders.TryDequeue(out var fold))
                 ReadFolder(fold, pcc);
 
+            var c = BoxViewModel.CreateCrossRelationshipCollectionForBox(box.Id);
             foreach (var file in Directory.EnumerateFiles(f))
             {
                 var fl = new FileLink(Guid.NewGuid(), file);
                 Log.Verbose("Loading file {file} under FileLink {fguid} in Box {bguid}", file, fl.Id, box.Id);
-                box.FileLinks.Add(fl);
+                c.Add(fl);
             }
         }
     }
@@ -102,7 +107,7 @@ public class AppDbContext : DbContext
     private static void ConfigureBoxModel(EntityTypeBuilder<Box> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.HasMany(x => x.FileLinks).WithMany();
+        mb.HasMany(x => x.FileLinks).WithMany(x => x.Boxes);
         mb.HasOne(x => x.Parent).WithMany(x => x.Children);
     }
 

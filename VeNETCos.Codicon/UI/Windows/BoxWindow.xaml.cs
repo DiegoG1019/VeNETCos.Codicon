@@ -34,14 +34,12 @@ public partial class BoxWindow : Window
     private static BoxWindow? activeInstance;
 
     public MainModel DataModel => (MainModel)DataContext;
-    private ServicesContainer<AppDbContext>? Services;
 
     readonly object MainContent;
 
     public BoxWindow()
     {
         InitializeComponent();
-        new CreateBoxWindow(new CreateBoxViewModel()).Show();
         activeInstance = this;
 
         Log = LoggerStore.GetLogger(this);
@@ -57,9 +55,7 @@ public partial class BoxWindow : Window
     private void DataModel_NavigatingToMainScreen()
     {
         Content = MainContent;
-        Services = AppServices.GetServices<AppDbContext>().Get(out var context);
-        DataModel.CurrentBox = new BoxViewModel(context, context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).First(x => x.Id == AppDbContext.PrimaryBoxGuid));
-
-        
+        using (AppServices.GetServices<AppDbContext>().Get(out var context))
+            DataModel.CurrentBox = new BoxViewModel(AppDbContext.PrimaryBoxGuid);
     }
 }

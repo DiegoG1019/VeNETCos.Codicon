@@ -4,11 +4,13 @@ using System.Runtime.Serialization;
 
 namespace VeNETCos.Codicon.Database.Models;
 public class FileLink :
+    IToManyRelation<Box>,
     IID
 {
     private string path;
 
     public Guid Id { get; init; }
+    public virtual ICollection<Box> Boxes { get; init; } = new HashSet<Box>();
 
     [MemberNotNull(nameof(path))]
     public string Path
@@ -40,4 +42,6 @@ public class FileLink :
     {
         new Process { StartInfo = new ProcessStartInfo(Path) { UseShellExecute = true } }.Start();
     }
+
+    ICollection<Box> IToManyRelation<Box>.Relation => Boxes;
 }

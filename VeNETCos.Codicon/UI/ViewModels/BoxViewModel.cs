@@ -8,35 +8,50 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 
 public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Box>, IModelView<Box>
 {
-    private readonly AppDbContext context;
-    public readonly Box box;
+    private readonly Guid boxId;
+    private readonly CrossRelationshipCollection<FileLink, Box> relations;
     private readonly ParentToChildrenRelationshipCollection<Box, Box> children;
 
     private BoxViewModel? parent;
 
-    public BoxViewModel(AppDbContext context, Box box)
+    public BoxViewModel(Guid box)
     {
-        if (context.Boxes.Find(box.Id) is null)
-        {
-            context.Boxes.Add(box);
-            context.SaveChanges();
-        }
+        using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
+        var bbox = context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).FirstOrDefault(x => x.Id == box) ?? throw new ArgumentException("Could not find a box by the given Id", nameof(box));
 
         Image = new BitmapImage(new("/UI/Resources/TORAKO-TOPOPEN.png", UriKind.Relative));
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.box = box ?? throw new ArgumentNullException(nameof(box));
-        children = new(context, box);
-        
-        LinkedFiles = new ModelSingleRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(box, m => new FileLinkViewModel(context, m));
 
-        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(
-            children,
-            m => new BoxViewModel(context, context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).First(x => x.Id == m.Id))
+        boxId = box;
+
+        relations = CreateCrossRelationshipCollectionForBox(box);
+        children = CreateParentToChildrenRelationshipCollectionForBox(box);
+
+        LinkedFiles = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(m.Id));
+        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(m.Id));
+
+        var c = $"#{bbox.Color.ToString("X").PadRight(8, '0')}";
+        FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom(c)!;
+
+        titleCache = bbox.Title;
+        descrCache = bbox.Description;
+        colorCache = bbox.Color;
+    }
+
+    public static CrossRelationshipCollection<FileLink, Box> CreateCrossRelationshipCollectionForBox(Guid boxId)
+        => new(
+            boxId, 
+            (c, i) => c.Boxes.Include(x => x.FileLinks).First(x => x.Id == i),
+            (c, i) => c.FileLinks.Include(x => x.Boxes).First(x => x.Id == i)
         );
 
-        var c = $"#{box.Color.ToString("X").PadRight(8, '0')}";
-        FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom(c)!;
-    }
+    public static ParentToChildrenRelationshipCollection<Box, Box> CreateParentToChildrenRelationshipCollectionForBox(Guid boxId)
+        => new(
+            boxId,
+            (c, i) => c.Boxes.Include(x => x.Children).First(x => x.Id == i),
+            (c, i) => c.Boxes.First(x => x.Id == i),
+            (c, i) => c.Boxes.Include(x => x.Parent).First(x => x.Id == i),
+            (c, b) => c.Boxes.Contains(b)
+        );
 
     public ICollection<FileLinkViewModel> LinkedFiles { get; }
 
@@ -47,9 +62,23 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         get => parent;
         set
         {
-            if(parent == value) return;
-            NotifyPropertyChanged(ref parent, value);
-            box.Parent = parent?.box;
+            using(AppServices.GetDbContext(out var context))
+            {
+                var box = context.Boxes.Include(x => x.Parent).First(x => x.Id == boxId);
+
+                if (value is not null)
+                {
+                    var newb = context.Boxes.First(x => x.Id == value.boxId);
+
+                    NotifyPropertyChanged(ref parent, value);
+                    box.Parent = newb;
+                }
+                else
+                {
+                    NotifyPropertyChanged(ref parent, null);
+                    box.Parent = null;
+                }
+            }
         }
     }
 
@@ -57,45 +86,70 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
 
     protected override void OnInit()
     {
-        Log.Information("Initialized new model for Box {box}", box);
+        Log.Information("Initialized new model for Box {box}", boxId);
     }
 
     public Brush FillColor { get; private set; }
 
+    private string? titleCache;
     public string? Title
     {
-        get => box.Title;
-        set => box.Title = NotifyPropertyChanged(box.Title, value);
-    }
-
-    public string? Description
-    {
-        get => box.Description;
-        set => box.Description = NotifyPropertyChanged(box.Description, value);
-    }
-
-    public int Color
-    {
-        get => box.Color;
+        get => titleCache;
         set
         {
-            if(box.Color == value) return;
-            box.Color = value;
-            NotifyPropertyChanged();
+            if (value == titleCache) return;
 
-            FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom($"#{box.Color.ToString("X").PadRight(8, '0')}")!;
+            using (AppServices.GetDbContext(out var context))
+            {
+                var box = context.Boxes.First(x => x.Id == boxId);
+                box.Title = value;
+                titleCache = value;
+                NotifyPropertyChanged();
+                context.SaveChanges();
+            }
+        }
+    }
+
+    private string? descrCache;
+    public string? Description
+    {
+        get => descrCache;
+        set
+        {
+            if (value == descrCache) return;
+
+            using (AppServices.GetDbContext(out var context))
+            {
+                var box = context.Boxes.First(x => x.Id == boxId);
+                box.Description = value;
+                descrCache = value;
+                NotifyPropertyChanged();
+                context.SaveChanges();
+            }
+        }
+    }
+
+    private int colorCache;
+    public int Color
+    {
+        get => colorCache;
+        set
+        {
+            if(colorCache == value) return;
+
+            using (AppServices.GetDbContext(out var context))
+            {
+                var box = context.Boxes.First(x => x.Id == boxId);
+                box.Color = value;
+                colorCache = value;
+                NotifyPropertyChanged();
+                context.SaveChanges();
+            }
+
+            FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom($"#{colorCache.ToString("X").PadRight(8, '0')}")!;
             NotifyPropertyChanged(nameof(FillColor));
         }
     }
 
-    protected override bool PropertyHasChanged(string property)
-    {
-        context.SaveChanges();
-        return true;
-    }
-
-    IToManyRelation<FileLink> IToManyRelationModelView<FileLink, Box>.RelationModel => box;
-    Box IToManyRelationModelView<FileLink, Box>.Model => box;
-
-    Box IModelView<Box>.Model => box;
+    Guid IModelView<Box>.ModelId => boxId;
 }

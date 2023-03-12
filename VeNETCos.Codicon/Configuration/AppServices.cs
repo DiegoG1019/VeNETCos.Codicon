@@ -24,6 +24,9 @@ public static partial class AppServices
     private static T Create<T>() where T : ServicesContainer, new()
         => new() { Scope = serviceProvider.CreateScope() };
 
+    public static ServicesContainer<AppDbContext> GetDbContext(out AppDbContext context)
+        => Create<ServicesContainer<AppDbContext>>().Get(out context);
+
     public static ServicesContainer<T> GetServices<T>()
         where T : class
         => Create<ServicesContainer<T>>();

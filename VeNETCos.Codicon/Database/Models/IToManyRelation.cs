@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace VeNETCos.Codicon.Database.Models;
-public interface IToManyRelation<TModel>
+public interface IToManyRelation<TModel> : IID
 {
-    public Guid Id { get; }
     public ICollection<TModel> Relation { get; }
 }

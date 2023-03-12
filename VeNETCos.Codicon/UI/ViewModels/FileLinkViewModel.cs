@@ -3,47 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+using Microsoft.EntityFrameworkCore;
 using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.Types;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
-public class FileLinkViewModel : BaseViewModel, IModelView<FileLink>
+public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, FileLink>, IModelView<FileLink>
 {
-    private readonly AppDbContext context;
-    private readonly FileLink fileLink;
+    private readonly Guid fileLink;
+    private readonly CrossRelationshipCollection<Box, FileLink> relations;
 
-    private static ImageSource DefaultIcon;
+    private static ImageSource? DefaultIcon;
 
-    public FileLinkViewModel(AppDbContext context, FileLink fileLink)
+    public FileLinkViewModel(Guid fileLink)
     {
         //DefaultIcon ??= new BitmapImage(new Uri("/UI/Resources/TORAKO-PAPER.png"));
+        using var services = AppServices.GetDbContext(out var context);
+        var fl = context.FileLinks.Include(x => x.Boxes).FirstOrDefault(x => x.Id == fileLink) ?? throw new ArgumentException("Could not find a FileLink by the given ID", nameof(fileLink));
 
-        if (context.FileLinks.Find(fileLink.Id) is null)
-        {
-            context.FileLinks.Add(fileLink);
-            context.SaveChanges();
-        }
+        this.fileLink = fileLink;
 
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.fileLink = fileLink ?? throw new ArgumentNullException(nameof(fileLink));
+        relations = new(fileLink, (c, i) => c.FileLinks.First(x => x.Id == i), (c, i) => c.Boxes.Include(x => x.FileLinks).First(x => x.Id == i));
+
+        Boxes = new ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink>(relations, m => new BoxViewModel(m.Id));
+        pathC = fl.Path;
+        Name = fl.Name;
     }
 
+    public ICollection<BoxViewModel> Boxes { get; }
+
+    private string pathC;
     public string Path
     {
-        get => fileLink.Path;
+        get => pathC;
         set
         {
-            if (fileLink.Path == value) return;
+            if (pathC == value) return;
             if (Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute) is false)
             {
                 AddModelError(Language.Errors.InvalidPathError);
                 return;
             }
-            fileLink.Path = value;
+            pathC = value;
             Icon = IconStore.GetIcon(Path) ?? DefaultIcon;
+
+            using (AppServices.GetDbContext(out var context))
+            {
+                var fl = context.FileLinks.First(x => x.Id == fileLink);
+                fl.Path = value;
+                Name = fl.Name;
+                context.SaveChanges();
+            }
 
             NotifyPropertyChanged();
             NotifyPropertyChanged(nameof(Name));
@@ -51,9 +63,9 @@ public class FileLinkViewModel : BaseViewModel, IModelView<FileLink>
         }
     }
 
-    public ImageSource Icon { get; private set; }
+    public ImageSource? Icon { get; private set; }
 
-    public string Name => fileLink.Name; 
+    public string Name { get; private set; }
     
     protected override void OnInit()
     {
@@ -62,9 +74,8 @@ public class FileLinkViewModel : BaseViewModel, IModelView<FileLink>
 
     protected override bool PropertyHasChanged(string property)
     {
-        context.SaveChanges();
         return true;
     }
 
-    FileLink IModelView<FileLink>.Model => fileLink;
+    Guid IModelView<FileLink>.ModelId => fileLink;
 }

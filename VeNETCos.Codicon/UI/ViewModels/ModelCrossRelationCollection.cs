@@ -12,11 +12,11 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMainModelView, TMainModel> : ICollection<TRelatedModelView>
     where TRelatedModelView : IToManyRelationModelView<TMainModel, TRelatedModel>
     where TMainModelView : IToManyRelationModelView<TRelatedModel, TMainModel>
-    where TRelatedModel : IToManyRelation<TMainModel>
-    where TMainModel : IToManyRelation<TRelatedModel>
+    where TRelatedModel : IToManyRelation<TMainModel>, IID
+    where TMainModel : IToManyRelation<TRelatedModel>, IID
 {
     private readonly CrossRelationshipCollection<TRelatedModel, TMainModel> collection;
-    private readonly Dictionary<TRelatedModel, TRelatedModelView> viewModels = new();
+    private readonly Dictionary<Guid, TRelatedModelView> viewModels = new();
     private readonly Func<TRelatedModel, TRelatedModelView> ModelFactory;
 
     public ModelCrossRelationCollection(CrossRelationshipCollection<TRelatedModel, TMainModel> collection, Func<TRelatedModel, TRelatedModelView> modelFactory)
@@ -27,14 +27,14 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
         ModelFactory = modelFactory;
 
         foreach (var m in collection)
-            viewModels.Add(m, modelFactory(m));
+            viewModels.Add(m.Id, modelFactory(m));
     }
 
     public void Add(TRelatedModelView item)
     {
-        if(viewModels.ContainsKey(item.Model)) return;
-        collection.Add(item.Model);
-        viewModels.TryAdd(item.Model, item);
+        if(viewModels.ContainsKey(item.ModelId)) return;
+        collection.Add(item.ModelId);
+        viewModels.TryAdd(item.ModelId, item);
     }
 
     public void Clear()
@@ -44,7 +44,7 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
     }
 
     public bool Contains(TRelatedModelView item)
-        => viewModels.ContainsKey(item.Model);
+        => viewModels.ContainsKey(item.ModelId);
 
     public void CopyTo(TRelatedModelView[] array, int arrayIndex)
     {
@@ -55,7 +55,7 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
     public bool Remove(TRelatedModelView item)
     {
         Update();
-        return collection.Remove(item.Model) && viewModels.Remove(item.Model, out _);
+        return collection.Remove(item.ModelId) && viewModels.Remove(item.ModelId, out _);
     }
 
     public int Count => viewModels.Count;
@@ -79,7 +79,7 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
             if (collection.Contains(m.Key) is false)
                 viewModels.Remove(m.Key);
         foreach (var m in collection)
-            if (viewModels.ContainsKey(m) is false)
-                viewModels.Add(m, ModelFactory(m));
+            if (viewModels.ContainsKey(m.Id) is false)
+                viewModels.Add(m.Id, ModelFactory(m));
     }
 }
