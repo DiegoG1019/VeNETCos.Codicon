@@ -9,7 +9,7 @@ namespace VeNETCos.Codicon.UI.ViewModels;
 public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Box>, IModelView<Box>
 {
     private readonly AppDbContext context;
-    private readonly Box box;
+    public readonly Box box;
     private readonly ParentToChildrenRelationshipCollection<Box, Box> children;
 
     private BoxViewModel? parent;

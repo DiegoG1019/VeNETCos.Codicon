@@ -41,6 +41,7 @@ public partial class BoxWindow : Window
     public BoxWindow()
     {
         InitializeComponent();
+        new CreateBoxWindow(new CreateBoxViewModel()).Show();
         activeInstance = this;
 
         Log = LoggerStore.GetLogger(this);
@@ -58,5 +59,7 @@ public partial class BoxWindow : Window
         Content = MainContent;
         Services = AppServices.GetServices<AppDbContext>().Get(out var context);
         DataModel.CurrentBox = new BoxViewModel(context, context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).First(x => x.Id == AppDbContext.PrimaryBoxGuid));
+
+        
     }
 }
