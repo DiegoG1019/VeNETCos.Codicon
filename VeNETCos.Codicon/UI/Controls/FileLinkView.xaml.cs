@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon.UI.Controls;
 /// <summary>
@@ -19,8 +20,17 @@ namespace VeNETCos.Codicon.UI.Controls;
 /// </summary>
 public partial class FileLinkView : UserControl
 {
+    public FileLinkViewModel DataModel => (FileLinkViewModel)DataContext;
+
     public FileLinkView()
     {
         InitializeComponent();
+
+        Drop += FileLinkView_Drop;
+    }
+
+    private void FileLinkView_Drop(object sender, DragEventArgs e)
+    {
+        
     }
 }

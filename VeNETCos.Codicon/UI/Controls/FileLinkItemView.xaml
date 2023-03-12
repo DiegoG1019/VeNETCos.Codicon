@@ -14,14 +14,7 @@
             <RowDefinition Height="26"/>
         </Grid.RowDefinitions>
         <Label Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch"/>
-        <Rectangle x:Name="BgRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="#4C000000" Offset="0"/>
-                    <GradientStop Color="#00000000" Offset="0.9"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
+        <Rectangle x:Name="BgRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Rectangle HorizontalAlignment="Left" Height="64" Margin="28, 4, 28, 4" VerticalAlignment="Top" Width="64" Grid.Row="0">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="{Binding Icon}" Stretch="Uniform"/>

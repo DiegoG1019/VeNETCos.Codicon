@@ -25,9 +25,6 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
         this.collection = collection ?? throw new ArgumentNullException(nameof(collection));
 
         ModelFactory = modelFactory;
-
-        foreach (var m in collection)
-            viewModels.Add(m.Id, modelFactory(m));
     }
 
     public void Add(TRelatedModelView item)
@@ -70,10 +67,10 @@ public class ModelCrossRelationCollection<TRelatedModelView, TRelatedModel, TMai
     IEnumerator IEnumerable.GetEnumerator()
     {
         Update();
-        return viewModels.GetEnumerator();
+        return viewModels.Values.GetEnumerator();
     }
 
-    private void Update()
+    public void Update()
     {
         foreach (var m in viewModels)
             if (collection.Contains(m.Key) is false)
