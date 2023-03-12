@@ -5,9 +5,9 @@ using VeNETCos.Codicon.Types;
 namespace VeNETCos.Codicon.UI.ViewModels;
 
 public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, TManyModelView, TManyModel> 
-    : ICollection<TManyModel>
+    : ICollection<TManyModelView>
     where TOneModelView : class
-    where TManyModelView : class
+    where TManyModelView : class, IModelView<TManyModel>
     where TOneModel : class, IID
     where TManyModel : class, IID, IToOneRelation<TOneModel>
 {
@@ -39,12 +39,12 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
                 viewModels.Add(m, ModelFactory(m));
     }
 
-    public void Add(TManyModel item)
+    public void Add(TManyModelView item)
     {
-        if (viewModels.ContainsKey(item) is false)
-            viewModels.Add(item, ModelFactory(item));
-        if (collection.Contains(item) is false)
-            collection.Add(item);
+        if (viewModels.ContainsKey(item.Model) is false)
+            viewModels.Add(item.Model, ModelFactory(item.Model));
+        if (collection.Contains(item.Model) is false)
+            collection.Add(item.Model);
     }
 
     public void Clear()
@@ -53,39 +53,30 @@ public class ModelParentToChildrenRelationCollection<TOneModelView, TOneModel, T
         viewModels.Clear();
     }
 
-    public bool Contains(TManyModel item)
+    public bool Contains(TManyModelView item)
     {
         Update();
-        return viewModels.ContainsKey(item);
+        return viewModels.ContainsKey(item.Model);
     }
 
-    public void CopyTo(TManyModel[] array, int arrayIndex)
+    public void CopyTo(TManyModelView[] array, int arrayIndex)
     {
         Update();
-        viewModels.Keys.CopyTo(array, arrayIndex);
+        viewModels.Values.CopyTo(array, arrayIndex);
     }
 
-    public bool Remove(TManyModel item)
+    public bool Remove(TManyModelView item)
     {
-        viewModels.Remove(item);
-        return collection.Remove(item);
+        viewModels.Remove(item.Model);
+        return collection.Remove(item.Model);
     }
 
     public int Count => collection.Count;
     public bool IsReadOnly => false;
 
-    public IEnumerator<TManyModel> GetEnumerator()
-        => collection.GetEnumerator();
+    public IEnumerator<TManyModelView> GetEnumerator()
+        => viewModels.Values.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
-        => collection.GetEnumerator();
-
-    public IEnumerable<TManyModelView> ViewModels
-    {
-        get
-        {
-            Update();
-            return viewModels.Values;
-        }
-    }
+        => viewModels.Values.GetEnumerator();
 }

@@ -62,9 +62,10 @@
                         CornerRadius="50,0,30,0"
                         Opacity="0.5"
                 >
-                    <Grid>
-                        <local1:BoxView DataContext="{Binding CurrentBox}"/>
-                    </Grid>
+                    <local1:BoxView DataContext="{Binding CurrentBox}" Grid.Column="1"/>
+                </Border>
+                <Border>
+                    <local1:FileLinkView DataContext="{Binding CurrentBox}" Grid.Column="0"/>
                 </Border>
 
             </Grid>

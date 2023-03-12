@@ -19,10 +19,6 @@ public class AppDbContext : DbContext
 
     public Box PrimaryBox => Boxes.First(x => x.Id == PrimaryBoxGuid);
 
-    public Box PrimaryBoxWithChildren => Boxes.Include(x => x.Children).First(x => x.Id == PrimaryBoxGuid);
-
-    public Box PrimaryBoxWithParent => Boxes.Include(x => x.Parent).First(x => x.Id == PrimaryBoxGuid);
-
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
 #if DEBUG
@@ -65,12 +61,11 @@ public class AppDbContext : DbContext
             while (folders.TryDequeue(out var fold))
                 ReadFolder(fold, pcc);
 
-                var c = new CrossRelationshipCollection<FileLink, Box>(this, box);
             foreach (var file in Directory.EnumerateFiles(f))
             {
                 var fl = new FileLink(Guid.NewGuid(), file);
                 Log.Verbose("Loading file {file} under FileLink {fguid} in Box {bguid}", file, fl.Id, box.Id);
-                c.Add(fl);
+                box.FileLinks.Add(fl);
             }
         }
     }
@@ -107,7 +102,7 @@ public class AppDbContext : DbContext
     private static void ConfigureBoxModel(EntityTypeBuilder<Box> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.HasMany(x => x.FileLinks).WithMany(x => x.Boxes);
+        mb.HasMany(x => x.FileLinks).WithMany();
         mb.HasOne(x => x.Parent).WithMany(x => x.Children);
     }
 
