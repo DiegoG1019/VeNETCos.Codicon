@@ -34,16 +34,16 @@
                 <StackPanel Panel.ZIndex="3"
                     Margin="10"
                 >
-                    <Image Margin="0,0,0,20" Source="/UI/Resources/TORAKO-ISOThicker.png"/>
-                    <Image Margin="10" Source="/UI/Resources/dashboard.png"/>
-                    <Image Margin="10" Source="/UI/Resources/stats-circular-filled-graphic.png" />
-                    <Image Margin="10" Source="/UI/Resources/heart.png" />
-                    <Image Margin="10" Source="/UI/Resources/suitcase.png" />
-                    <Image Margin="10" Source="/UI/Resources/mortarboard.png" />
-                    <Image Margin="10" Source="/UI/Resources/games.png" />
-                    <Image Margin="10" Source="/UI/Resources/fun.png" />
-                    <Image Margin="10" Source="/UI/Resources/safebox.png" />
-                    <Image Margin="10" Source="/UI/Resources/on-time.png" />
+                    <Image Margin="0,0,0,20" Source="/UI/Resources/TORAKO-ISOThicker.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/dashboard.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/stats-circular-filled-graphic.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/heart.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/suitcase.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/mortarboard.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/games.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/fun.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/safebox.png" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Image Margin="10" Source="/UI/Resources/on-time.png" RenderOptions.BitmapScalingMode="Fant"/>
 
 
                 </StackPanel>

@@ -17,7 +17,8 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
-                <Image Source="/UI/Controls/TORAKO-ISO.png"
+                <Image Source="/UI/Resources/TORAKO-ISOThicker.png"
+                       RenderOptions.BitmapScalingMode="Fant"
                        Stretch="Fill"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="torako" 

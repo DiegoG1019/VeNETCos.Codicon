@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="UI\Controls\TORAKO-ISO.png" />
     <None Remove="UI\Resources\dashboard.png" />
     <None Remove="UI\Resources\dashboard.svg" />
+    <None Remove="UI\Resources\favicon.ico" />
     <None Remove="UI\Resources\fun.png" />
     <None Remove="UI\Resources\games.png" />
     <None Remove="UI\Resources\heart.png" />
@@ -33,10 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="UI\Resources\favicon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
@@ -50,9 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="UI\Controls\TORAKO-ISO.png" />
     <Resource Include="UI\Resources\dashboard.png" />
     <Resource Include="UI\Resources\dashboard.svg" />
+    <Resource Include="UI\Resources\favicon.ico" />
     <Resource Include="UI\Resources\fun.png" />
     <Resource Include="UI\Resources\games.png" />
     <Resource Include="UI\Resources\heart.png" />
