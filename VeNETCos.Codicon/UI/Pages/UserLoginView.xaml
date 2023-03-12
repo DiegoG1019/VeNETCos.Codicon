@@ -13,15 +13,22 @@
         CornerRadius="30"
         >
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <local1:TopBar/>
-            <Border Grid.Row="1" CornerRadius="0,0,30,30" Background="#e8ebda" Opacity="0.9">
+            <local1:TopBar Grid.Row="0" Grid.Column="1" Margin="0,0,0,0"/>
+            <Border Grid.Row="0" Grid.Column="0" CornerRadius="30,0,0,0" Background="#e1dae1">
+                
+            </Border>
+            <Border Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="0,0,30,30" Background="#e8ebda" Opacity="0.9">
                 <Label Content="" x:Name="ErrorLabel"  Margin="20,20,20,20" Width="250" HorizontalAlignment="Right" Foreground="Red" />
             </Border>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" >
                 <StackPanel
                     VerticalAlignment="Center"
                     Orientation="Vertical"

@@ -48,7 +48,7 @@
 
                 </StackPanel>
             </Border>
-            <local1:TopBar Grid.ColumnSpan="2"/>
+            <local1:TopBar Grid.Column="2"/>
             <Border Grid.Column="1" Grid.Row="1" CornerRadius="0,0,30,0" Background="#e8ebda" Opacity="0.95">
             </Border>
             <Grid  Grid.Column="1" Grid.Row="1" >
@@ -69,13 +69,16 @@
                             <RowDefinition Height="60"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Image MouseDown="Image_MouseDown" Cursor="Hand" Margin="20,0,0,0" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/arrow.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
-                            <Image.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="180"/>
-                                </TransformGroup>
-                            </Image.RenderTransform>
-                        </Image>
+                        <StackPanel Margin="20,0,0,0" Height="40" VerticalAlignment="Bottom" Orientation="Horizontal">
+                            <Image MouseDown="Image_MouseDown" Cursor="Hand"  Margin="0,0,0,2" Width="35" Height="35"  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/arrow.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="180"/>
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                            <Image MouseDown="Image_MouseDown_1"  Cursor="Hand"  Width="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/plus.png" Stretch="Fill"/>
+                        </StackPanel>
                     </Grid>
                     <local1:BoxView DataContext="{Binding CurrentBox}" Grid.Column="1"/>
                 </Grid>

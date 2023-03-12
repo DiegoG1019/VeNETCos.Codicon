@@ -55,7 +55,6 @@ public partial class BoxWindow : Window
     private void DataModel_NavigatingToMainScreen()
     {
         Content = MainContent;
-        new CreateBoxWindow(new CreateBoxViewModel()).Show();
         using (AppServices.GetServices<AppDbContext>().Get(out var context))
             DataModel.CurrentBox = new BoxViewModel(AppDbContext.PrimaryBoxGuid);
     }
@@ -73,5 +72,10 @@ public partial class BoxWindow : Window
             BoxWindow.ActiveInstance.DataModel!.CurrentBox = new BoxViewModel(currentBox.Parent.Id);
         }
 
+    }
+
+    private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+    {
+        new CreateBoxWindow(new CreateBoxViewModel()).Show();
     }
 }

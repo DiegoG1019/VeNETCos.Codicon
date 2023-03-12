@@ -49,8 +49,4 @@ public partial class FileLinkItemView : UserControl
         Log.Information("Succesfully started a process for FileLink {file}", DataModel);
     }
 
-    private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-
-    }
 }

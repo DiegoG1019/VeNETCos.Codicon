@@ -58,7 +58,7 @@ public class AppDbContext : DbContext
                 if (readFolders.Add(dir))
                     folders.Enqueue(dir);
 
-            Boxes.Add(box);
+            //Boxes.Add(box);
             SaveChanges();
 
             var pcc = BoxViewModel.CreateParentToChildrenRelationshipCollectionForBox(box.Id);
