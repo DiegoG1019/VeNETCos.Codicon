@@ -16,15 +16,11 @@ using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.Database.Models;
 
 namespace VeNETCos.Codicon.UI.Controls;
-/// <summary>
-/// Interaction logic for EntryPage.xaml
-/// </summary>
-public partial class BoxView : Page
+
+public partial class BoxView : UserControl
 {
     public BoxView()
     {
         InitializeComponent();
-        using var services = AppServices.GetServices<AppDbContext>().Get(out var context);
-
     }
 }

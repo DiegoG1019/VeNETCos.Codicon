@@ -19,6 +19,10 @@ public class AppDbContext : DbContext
 
     public Box PrimaryBox => Boxes.First(x => x.Id == PrimaryBoxGuid);
 
+    public Box PrimaryBoxWithChildren => Boxes.Include(x => x.Children).First(x => x.Id == PrimaryBoxGuid);
+
+    public Box PrimaryBoxWithParent => Boxes.Include(x => x.Parent).First(x => x.Id == PrimaryBoxGuid);
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
 #if DEBUG
@@ -35,7 +39,7 @@ public class AppDbContext : DbContext
 
         ReadFolder(folder, null);
 
-        void ReadFolder(string f, ParentToChildrenRelationshipCollection<Box, Box>? parentChildrenCollection)
+        unsafe void ReadFolder(string f, ParentToChildrenRelationshipCollection<Box, Box>? parentChildrenCollection)
         {
             Queue<string> folders = new();
 
@@ -43,12 +47,15 @@ public class AppDbContext : DbContext
             n = BoxNames.TryGetValue(n, out int value) ? $"{n}-{value}" : n;
             BoxNames[n] = value + 1;
 
-            Box box = new(Guid.NewGuid(), n, null, 0);
+            int color = int.MaxValue;
+            Span<byte> bytes = new Span<byte>(&color, sizeof(int))[1..];
+            Random.Shared.NextBytes(bytes);
+
+            Box box = new(Guid.NewGuid(), n, null, color);
             Boxes.Add(box);
             Log.Debug("Loading folder {f} under Box {guid}", f, box.Id);
 
-            if (parentChildrenCollection is not null)
-                parentChildrenCollection.Add(box);
+            parentChildrenCollection?.Add(box);
 
             foreach (var dir in Directory.EnumerateDirectories(f)) 
                 if (readFolders.Add(dir))
@@ -102,7 +109,6 @@ public class AppDbContext : DbContext
         mb.HasKey(x => x.Id);
         mb.HasMany(x => x.FileLinks).WithMany(x => x.Boxes);
         mb.HasOne(x => x.Parent).WithMany(x => x.Children);
-        mb.Navigation(x => x.FileLinks).AutoInclude();
     }
 
     private static void ConfigureAppModel(EntityTypeBuilder<FileLink> mb)
@@ -133,7 +139,7 @@ public class AppDbContext : DbContext
 
             Random rand = new();
 
-            string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "torako", "debug", "garbagedat");
+            string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "torako", AppConfiguration.UserProfile, "garbagedat");
             if (Directory.Exists(dir)) 
                 Directory.Delete(dir, true);
             Directory.CreateDirectory(dir);
@@ -160,14 +166,14 @@ public class AppDbContext : DbContext
 
             void CreateFolders(string head, int depth)
             {
-                int folders = rand.Next(0, 2);
+                int folders = rand.Next(1, 2);
                 if (folders <= 0) return;
 
                 Log.Debug("Creating {folders} folders at depth {depth} under {head}", folders, depth, head);
                 for (int f = 0; f < folders; f++)
                 {
                     string fname = NameGenerator.NextName;
-                    int files = rand.Next(0, 10);
+                    int files = rand.Next(1, 10);
                     string fd = Path.Combine(head, fname);
 
                     Directory.CreateDirectory(fd);

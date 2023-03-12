@@ -1,4 +1,4 @@
-﻿<Page x:Class="VeNETCos.Codicon.UI.Controls.BoxView"
+﻿<UserControl x:Class="VeNETCos.Codicon.UI.Controls.BoxView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,8 +7,7 @@
       xmlns:models="clr-namespace:VeNETCos.Codicon.UI.ViewModels" 
       d:DataContext="{d:DesignInstance Type=models:BoxViewModel}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="120"
-      Title="EntryPage">
+      d:DesignHeight="450" d:DesignWidth="120">
     <Grid>
         <StackPanel 
             Orientation="Vertical"
@@ -28,4 +27,4 @@
             </ItemsControl>
         </StackPanel>
     </Grid>
-</Page>
+</UserControl>
