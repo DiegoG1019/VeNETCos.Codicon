@@ -88,6 +88,7 @@ namespace VeNETCos.Codicon.UI.Pages
             var name = DataModel.UserLogin.Name!.Trim();
 
             Timer.Start();
+            DataModel.UserLogin.IsLoading = FormValidating;
             AppStartingTask = Task.Run(() =>
             {
                 AppConfiguration.UserProfile = name;

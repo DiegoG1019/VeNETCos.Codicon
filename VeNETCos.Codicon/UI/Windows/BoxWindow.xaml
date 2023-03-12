@@ -34,7 +34,7 @@
                 <StackPanel Panel.ZIndex="3"
                     Margin="10"
                 >
-                    <Image Margin="0,0,0,20" Source="/UI/Resources/TORAKO-ISO.png"/>
+                    <Image Margin="0,0,0,20" Source="/UI/Resources/TORAKO-ISOThicker.png"/>
                     <Image Margin="10" Source="/UI/Resources/dashboard.png"/>
                     <Image Margin="10" Source="/UI/Resources/stats-circular-filled-graphic.png" />
                     <Image Margin="10" Source="/UI/Resources/heart.png" />
@@ -49,7 +49,7 @@
                 </StackPanel>
             </Border>
             <local1:TopBar Grid.ColumnSpan="2"/>
-            <Border Grid.Column="1" Grid.Row="1" CornerRadius="0,0,30,0" Background="#e8ebda" Opacity="0.9">
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="0,0,30,0" Background="#e8ebda" Opacity="0.95">
             </Border>
             <Grid  Grid.Column="1" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
@@ -59,8 +59,9 @@
                 <Border 
                         Grid.Column="1"
                         Background="#a098b4"
-                        CornerRadius="50,0,0,0"
-                        >
+                        CornerRadius="50,0,30,0"
+                        Opacity="0.5"
+                >
                     <Grid>
                        
                     </Grid>

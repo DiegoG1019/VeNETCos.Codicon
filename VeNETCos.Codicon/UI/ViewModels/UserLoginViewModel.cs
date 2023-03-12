@@ -10,6 +10,14 @@ public class UserLoginViewModel : BaseViewModel
     private static readonly char[] InvalidChars = Path.GetInvalidPathChars().Concat(Path.GetInvalidFileNameChars()).Concat(new char[] { '\\', '/', '.' }).Distinct().ToArray();
     private string? name;
 
+    private bool isLoading;
+    public bool IsLoading
+    {
+        get => isLoading;
+        set => NotifyPropertyChanged(ref isLoading, value);
+    }
+
+
     public string? Name
     {
         get => name;

@@ -27,7 +27,6 @@
                     Orientation="Vertical"
                     Width="500"
                     >
-                    <spinner:LoadingSpinner IsLoading="{Binding IsLoading}"/>
                     <TextBlock
                         FontSize="60"
                         Text="{Binding Language.UserLogin.WelcomeMessage}"
@@ -73,6 +72,9 @@
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="#FF059A62"/>
                                     </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="Gray"/>
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
@@ -91,6 +93,7 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
+                    <spinner:LoadingSpinner IsLoading="{Binding UserLogin.IsLoading}" Margin="0,30,0,0"/>
                 </StackPanel>
             </Grid>
 

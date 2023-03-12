@@ -23,8 +23,11 @@
     <None Remove="UI\Resources\suitcase.png" />
     <None Remove="UI\Resources\TORAKO-FILE.png" />
     <None Remove="UI\Resources\TORAKO-ISO.png" />
+    <None Remove="UI\Resources\TORAKO-ISOThicker.png" />
     <None Remove="UI\Resources\TORAKO-TOP.png" />
     <None Remove="UI\Resources\TORAKO-TOPOPEN.png" />
+    <None Remove="UI\Resources\TORAKO-TOPOPENThicker.png" />
+    <None Remove="UI\Resources\TORAKO-TOPThicker.png" />
     <None Remove="UI\ViewModels\BaseViewModel.cs~RF61182e7e.TMP" />
   </ItemGroup>
 
@@ -56,8 +59,11 @@
     <Resource Include="UI\Resources\suitcase.png" />
     <Resource Include="UI\Resources\TORAKO-FILE.png" />
     <Resource Include="UI\Resources\TORAKO-ISO.png" />
+    <Resource Include="UI\Resources\TORAKO-ISOThicker.png" />
     <Resource Include="UI\Resources\TORAKO-TOP.png" />
     <Resource Include="UI\Resources\TORAKO-TOPOPEN.png" />
+    <Resource Include="UI\Resources\TORAKO-TOPOPENThicker.png" />
+    <Resource Include="UI\Resources\TORAKO-TOPThicker.png" />
   </ItemGroup>
 
   <ItemGroup>
