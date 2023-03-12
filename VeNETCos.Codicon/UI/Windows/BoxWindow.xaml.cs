@@ -55,6 +55,7 @@ public partial class BoxWindow : Window
     private void DataModel_NavigatingToMainScreen()
     {
         Content = MainContent;
+        new CreateBoxWindow(new CreateBoxViewModel()).Show();
         using (AppServices.GetServices<AppDbContext>().Get(out var context))
             DataModel.CurrentBox = new BoxViewModel(AppDbContext.PrimaryBoxGuid);
     }

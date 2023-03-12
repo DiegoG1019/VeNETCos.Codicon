@@ -34,7 +34,7 @@ public partial class CreateBoxWindow : Window
        
        CreateBoxViewModel dataContext = (CreateBoxViewModel)DataContext;
        Box newBox = new Box(new Guid(), dataContext.Name, dataContext.Description,0);
-       Box currentBox = BoxWindow.ActiveInstance.DataModel.CurrentBox.box;
+        Box currentBox = BoxWindow.ActiveInstance.DataModel.CurrentBox.GetBox();
        newBox.Parent = currentBox;
 
         using var services = AppServices.GetServices<AppDbContext>().Get(out var context);

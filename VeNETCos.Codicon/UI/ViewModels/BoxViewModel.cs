@@ -37,6 +37,16 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         colorCache = bbox.Color;
     }
 
+    public Box GetBox()
+    {
+        Box box;
+        using (AppServices.GetDbContext(out var context))
+        {
+            box = context.Boxes.Include(x => x.Parent).First(x => x.Id == boxId);
+        }
+        return box;
+    }
+    
     public static CrossRelationshipCollection<FileLink, Box> CreateCrossRelationshipCollectionForBox(Guid boxId)
         => new(
             boxId, 

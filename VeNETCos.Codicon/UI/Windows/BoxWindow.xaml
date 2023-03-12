@@ -56,14 +56,19 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border 
-                        Grid.Column="1"
+                <Grid Grid.Column="1">
+                    <Border 
+                        
                         Background="#a098b4"
                         CornerRadius="50,0,30,0"
                         Opacity="0.5"
-                >
+                     >
+                    </Border>
                     <local1:BoxView DataContext="{Binding CurrentBox}" Grid.Column="1"/>
-                </Border>
+                </Grid>
+
+                    
+                
                 <Border>
                     <local1:FileLinkView DataContext="{Binding CurrentBox}" Grid.Column="0"/>
                 </Border>
