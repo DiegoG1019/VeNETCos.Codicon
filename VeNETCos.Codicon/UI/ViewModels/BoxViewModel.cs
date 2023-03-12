@@ -10,6 +10,7 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
 {
     private readonly AppDbContext context;
     private readonly Box box;
+    private readonly CrossRelationshipCollection<FileLink, Box> relations;
     private readonly ParentToChildrenRelationshipCollection<Box, Box> children;
 
     private BoxViewModel? parent;
@@ -23,16 +24,12 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         }
 
         Image = new BitmapImage(new("/UI/Resources/TORAKO-TOPOPEN.png", UriKind.Relative));
+        relations = new(context, box);
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.box = box ?? throw new ArgumentNullException(nameof(box));
         children = new(context, box);
-        
-        LinkedFiles = new ModelSingleRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(box, m => new FileLinkViewModel(context, m));
-
-        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(
-            children,
-            m => new BoxViewModel(context, context.Boxes.Include(x => x.Children).Include(x => x.FileLinks).First(x => x.Id == m.Id))
-        );
+        LinkedFiles = new ModelCrossRelationCollection<FileLinkViewModel, FileLink, BoxViewModel, Box>(relations, m => new FileLinkViewModel(context, m));
+        Children = new ModelParentToChildrenRelationCollection<BoxViewModel, Box, BoxViewModel, Box>(children, m => new BoxViewModel(context, m));
 
         var c = $"#{box.Color.ToString("X").PadRight(8, '0')}";
         FillColor = (SolidColorBrush)new BrushConverter().ConvertFrom(c)!;
