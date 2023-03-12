@@ -77,9 +77,9 @@ namespace VeNETCos.Codicon.UI.Pages
         Task? AppStartingTask = null;
         private void ValidateForm()
         {
-            if (DataModel.Validate() is false || FormValidating)
+            if (DataModel.UserLogin.Validate() is false || FormValidating)
             {
-                ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
+                ErrorLabel.Content = string.Join("\n*", DataModel.UserLogin.Errors);
                 return;
             }
 

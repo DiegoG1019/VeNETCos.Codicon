@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>UI\Resources\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
     <None Remove="UI\Resources\TORAKO-TOPOPENThicker.png" />
     <None Remove="UI\Resources\TORAKO-TOPThicker.png" />
     <None Remove="UI\ViewModels\BaseViewModel.cs~RF61182e7e.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="UI\Resources\favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
