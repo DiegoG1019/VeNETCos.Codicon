@@ -15,11 +15,16 @@
             CanVerticallyScroll="True"
         >
             <ItemsControl ItemsSource="{Binding Children}">
-                <ItemsControl.Template>
-                    <ControlTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
                         <controls:BoxItemView DataContext="{Binding}"/>
-                    </ControlTemplate>
-                </ItemsControl.Template>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
     </Grid>
