@@ -23,7 +23,7 @@ namespace VeNETCos.Codicon.UI.Pages
     {
         readonly ILogger Log;
 
-        public UserLoginViewModel DataModel { get; private set; }
+        public MainModel DataModel { get; private set; }
 
         public UserLoginView()
         {
@@ -36,18 +36,13 @@ namespace VeNETCos.Codicon.UI.Pages
 
         private void UserLoginView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is UserLoginViewModel dm)
-            {
-                DataModel = dm;
-                return;
-            }
             if (e.NewValue is MainModel mm)
             {
-                DataModel = mm.UserLogin;
+                DataModel = mm;
                 return;
             }
 
-            throw new InvalidOperationException("Cannot set the DataContext of a UserLoginView to anything other than a UserLoginViewModel");
+            throw new InvalidOperationException("Cannot set the DataContext of a UserLoginView to anything other than a MainModel");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -56,8 +51,10 @@ namespace VeNETCos.Codicon.UI.Pages
 
             ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
 
-            AppConfiguration.UserProfile = DataModel.Name!.Trim();
+            AppConfiguration.UserProfile = DataModel.UserLogin.Name!.Trim();
             Log.Information("Set user login information to {login}", AppConfiguration.UserProfile);
+
+            DataModel.NavigateToMainScreen();
         }
     }
 }

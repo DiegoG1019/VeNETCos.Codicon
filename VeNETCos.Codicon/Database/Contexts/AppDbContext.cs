@@ -12,8 +12,12 @@ using VeNETCos.Codicon.Types;
 namespace VeNETCos.Codicon.Database.Contexts;
 public class AppDbContext : DbContext
 {
+    public static readonly Guid PrimaryBoxGuid = Guid.Parse("{11111111-1111-1111-1111-111111111111}");
+
     public DbSet<FileLink> FileLinks => Set<FileLink>();
     public DbSet<Box> Boxes => Set<Box>();
+
+    public Box PrimaryBox => Boxes.First(x => x.Id == PrimaryBoxGuid);
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -66,11 +70,33 @@ public class AppDbContext : DbContext
         }
     }
 
+    public override int SaveChanges()
+    {
+        if (ChangeTracker.HasChanges())
+        {
+            var primaryBox = Boxes.FirstOrDefault(x => x.Id == PrimaryBoxGuid);
+            if (primaryBox is null)
+            {
+                primaryBox = new Box(PrimaryBoxGuid, "Primary Box", "The Box where it All starts", 0);
+                Boxes.Add(primaryBox);
+            }
+
+            foreach (var box in ChangeTracker.Entries<Box>().Where(x => x.Entity.Id != PrimaryBoxGuid && x.Entity.Parent is null).Select(x => x.Entity))
+            {
+                box.Parent = primaryBox;
+                primaryBox.Children.Add(box);
+            }
+        }
+
+        return base.SaveChanges();
+    }
+
     protected override void OnModelCreating(ModelBuilder mb)
     {
         base.OnModelCreating(mb);
         ConfigureAppModel(mb.Entity<FileLink>());
         ConfigureBoxModel(mb.Entity<Box>());
+        mb.Entity<Box>().HasData(new Box(PrimaryBoxGuid, "Primary Box", "The Box where it All starts", 0));
     }
 
     private static void ConfigureBoxModel(EntityTypeBuilder<Box> mb)
@@ -97,7 +123,7 @@ public class AppDbContext : DbContext
             if (isSeeded) return;
             isSeeded = true;
 
-            if (context.Boxes.Any() || context.FileLinks.Any())
+            if (context.Boxes.Any(x => x.Id != PrimaryBoxGuid) || context.FileLinks.Any())
             {
                 Log.Information("Attempted to seed file data for databasedata; but the database already has data");
                 return;
