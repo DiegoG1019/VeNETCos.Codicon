@@ -79,7 +79,7 @@ namespace VeNETCos.Codicon.UI.Pages
         {
             if (DataModel.UserLogin.Validate() is false || FormValidating)
             {
-                ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
+                ErrorLabel.Content = string.Join("\n*", DataModel.UserLogin.Errors);
                 return;
             }
 
