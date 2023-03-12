@@ -91,6 +91,8 @@ public class BoxViewModel : BaseViewModel, IToManyRelationModelView<FileLink, Bo
         Log.Information("Initialized new model for Box {box}", boxId);
     }
 
+    public override string ToString() => $"{Title}; {(Parent?.Title ?? "")}";
+
     public Brush FillColor { get; private set; }
 
     private string? titleCache;

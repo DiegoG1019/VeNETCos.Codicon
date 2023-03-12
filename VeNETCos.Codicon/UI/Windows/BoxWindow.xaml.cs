@@ -115,6 +115,5 @@ public partial class BoxWindow : Window
 
             BoxWindow.ActiveInstance.DataModel!.CurrentBox = new BoxViewModel(currentBox.Parent.Id);
         }
-
     }
 }

@@ -29,6 +29,8 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
 
         Boxes = new ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink>(relations, m => new BoxViewModel(m.Id));
         Path = fl.Path;
+
+        BoxList = string.Join("\n-", Boxes.Select(x => x.ToString()));
     }
 
     public ModelCrossRelationCollection<BoxViewModel, Box, FileLinkViewModel, FileLink> Boxes { get; }
@@ -56,6 +58,8 @@ public class FileLinkViewModel : BaseViewModel, IToManyRelationModelView<Box, Fi
             NotifyPropertyChanged(nameof(Icon));
         }
     }
+
+    public string BoxList { get; private set; } = "";
 
     public ImageSource? Icon { get; private set; }
 

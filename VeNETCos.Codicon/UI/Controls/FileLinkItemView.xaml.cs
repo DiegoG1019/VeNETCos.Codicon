@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.UI.ViewModels;
+using VeNETCos.Codicon.UI.Windows;
 
 namespace VeNETCos.Codicon.UI.Controls;
 /// <summary>
@@ -33,19 +34,25 @@ public partial class FileLinkItemView : UserControl
 
     private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        Log.Information("Trying to start a process for FileLink {file}", DataModel);
-        try
+        if (e.LeftButton == MouseButtonState.Pressed) 
         {
-            FileLink model;
-            using (AppServices.GetDbContext(out var context))
-                model = context.FileLinks.First(x => x.Id == DataModel.FileLinkId);
-            model.Open();
+            Log.Information("Trying to start a process for FileLink {file}", DataModel);
+            try
+            {
+                FileLink model;
+                using (AppServices.GetDbContext(out var context))
+                    model = context.FileLinks.First(x => x.Id == DataModel.FileLinkId);
+                model.Open();
+            }
+            catch
+            {
+                Log.Warning("Could not start a process for FileLink {file}", DataModel);
+                return;
+            }
+            Log.Information("Succesfully started a process for FileLink {file}", DataModel);
         }
-        catch
-        {
-            Log.Warning("Could not start a process for FileLink {file}", DataModel);
-            return;
-        }
-        Log.Information("Succesfully started a process for FileLink {file}", DataModel);
+
+        if (e.RightButton == MouseButtonState.Pressed)
+            new FileLinkWindow(DataModel).Show();
     }
 }

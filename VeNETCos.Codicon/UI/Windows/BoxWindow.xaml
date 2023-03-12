@@ -77,7 +77,7 @@
                                     </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
-                            <Image MouseDown="Image_MouseDown_1"  Cursor="Hand"  Width="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/plus.png" Stretch="Fill"/>
+                            <Image MouseDown="Image_MouseDown"  Cursor="Hand"  Width="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/UI/Resources/plus.png" Stretch="Fill"/>
                         </StackPanel>
                     </Grid>
                     <local1:BoxView DataContext="{Binding CurrentBox}" Grid.Column="1"/>
