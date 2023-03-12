@@ -23,4 +23,9 @@ public partial class FileLinkItemView : UserControl
     {
         InitializeComponent();
     }
+
+    private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+
+    }
 }

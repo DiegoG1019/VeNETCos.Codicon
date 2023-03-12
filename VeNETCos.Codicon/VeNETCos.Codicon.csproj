@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\Resources\arrow.png" />
     <None Remove="UI\Resources\dashboard.png" />
     <None Remove="UI\Resources\dashboard.svg" />
     <None Remove="UI\Resources\favicon.ico" />
@@ -47,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="UI\Resources\arrow.png" />
     <Resource Include="UI\Resources\dashboard.png" />
     <Resource Include="UI\Resources\dashboard.svg" />
     <Resource Include="UI\Resources\favicon.ico" />
