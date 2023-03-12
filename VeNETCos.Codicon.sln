@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeNETCos.Codicon", "VeNETCos.Codicon\VeNETCos.Codicon.csproj", "{2298B180-965A-48F0-B41C-FAC16FD0C7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeNETCos.Codicon.Tests", "VeNETCos.Codicon.Tests\VeNETCos.Codicon.Tests.csproj", "{28CB6857-F472-42B9-9651-5C1EF45EB586}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeNETCos.Codicon.Tests", "VeNETCos.Codicon.Tests\VeNETCos.Codicon.Tests.csproj", "{28CB6857-F472-42B9-9651-5C1EF45EB586}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoadingSpinnerControl", "LoadingSpinnerControl\LoadingSpinnerControl.csproj", "{8CB65FCD-6A77-49AF-BD57-2A8CB50AD4CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28CB6857-F472-42B9-9651-5C1EF45EB586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB65FCD-6A77-49AF-BD57-2A8CB50AD4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB65FCD-6A77-49AF-BD57-2A8CB50AD4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB65FCD-6A77-49AF-BD57-2A8CB50AD4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB65FCD-6A77-49AF-BD57-2A8CB50AD4CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Pages" xmlns:local1="clr-namespace:VeNETCos.Codicon.UI.Controls" xmlns:viewmodels="clr-namespace:VeNETCos.Codicon.UI.ViewModels"
+      xmlns:local="clr-namespace:VeNETCos.Codicon.UI.Pages" xmlns:local1="clr-namespace:VeNETCos.Codicon.UI.Controls" xmlns:viewmodels="clr-namespace:VeNETCos.Codicon.UI.ViewModels" xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
       mc:Ignorable="d"
       d:DesignHeight="700" d:DesignWidth="1200"
       Title="UserLoginView"
@@ -26,8 +26,8 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical"
                     Width="500"
-                    
                     >
+                    <spinner:LoadingSpinner IsLoading="{Binding IsLoading}"/>
                     <TextBlock
                         FontSize="60"
                         Text="Welcome!"

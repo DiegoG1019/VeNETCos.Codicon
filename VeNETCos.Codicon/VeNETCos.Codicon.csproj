@@ -73,4 +73,8 @@
     <Folder Include="UI\Pages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LoadingSpinnerControl\LoadingSpinnerControl.csproj" />
+  </ItemGroup>
+
 </Project>
