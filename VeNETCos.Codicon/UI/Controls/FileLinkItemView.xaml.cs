@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeNETCos.Codicon.Database.Models;
 using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon.UI.Controls;
@@ -35,7 +36,10 @@ public partial class FileLinkItemView : UserControl
         Log.Information("Trying to start a process for FileLink {file}", DataModel);
         try
         {
-            Process.Start(DataModel.Path);
+            FileLink model;
+            using (AppServices.GetDbContext(out var context))
+                model = context.FileLinks.First(x => x.Id == DataModel.FileLinkId);
+            model.Open();
         }
         catch(Exception exc)
         {
