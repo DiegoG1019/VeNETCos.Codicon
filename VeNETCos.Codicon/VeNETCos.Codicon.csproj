@@ -21,6 +21,7 @@
     <None Remove="UI\Resources\on-time.png" />
     <None Remove="UI\Resources\plus.png" />
     <None Remove="UI\Resources\prueba.jpg" />
+    <None Remove="UI\Resources\random.png" />
     <None Remove="UI\Resources\safebox.png" />
     <None Remove="UI\Resources\stats-circular-filled-graphic.png" />
     <None Remove="UI\Resources\suitcase.png" />
@@ -60,6 +61,7 @@
     <Resource Include="UI\Resources\on-time.png" />
     <Resource Include="UI\Resources\plus.png" />
     <Resource Include="UI\Resources\prueba.jpg" />
+    <Resource Include="UI\Resources\random.png" />
     <Resource Include="UI\Resources\safebox.png" />
     <Resource Include="UI\Resources\stats-circular-filled-graphic.png" />
     <Resource Include="UI\Resources\suitcase.png" />
