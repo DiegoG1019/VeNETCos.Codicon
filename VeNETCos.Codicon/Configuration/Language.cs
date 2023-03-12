@@ -30,6 +30,11 @@ public static class Language
                 InvalidPathError: "The entered path is invalid",
                 UsernameNullError: "Username cannot be empty",
                 InvalidUsernameError: "The provided username is invalid"
+            ),
+            new UserLogin(
+                WelcomeMessage: "Welcome!",
+                WelcomeMessageSmall: "Glad to ese you here.",
+                LoginButton: "Login"
             )
         );
     }

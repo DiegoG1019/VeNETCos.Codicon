@@ -30,13 +30,13 @@
                     >
                     <TextBlock
                         FontSize="60"
-                        Text="Welcome!"
+                        Text="{Binding Language.UserLogin.WelcomeMessage}"
                         FontWeight="Bold"
                         TextAlignment="Center"
                     />
                     <TextBlock
                         FontSize="40"
-                        Text="Glad to see you here."
+                        Text="{Binding Language.UserLogin.WelcomeMessageSmall}"
                         TextWrapping="Wrap"
                         FontWeight="DemiBold"
                         TextAlignment="Center"
@@ -57,10 +57,10 @@
                             Text="{Binding Path=UserLogin.Name, Mode=TwoWay}"
                         ></TextBox>
                     </Border>
-                    <Button 
+                    <Button x:Name="LoginButton"
                         BorderThickness="0"
                         Padding="10"
-                        Content="Login"
+                        Content="{Binding Language.UserLogin.LoginButton}"
 
                         FontSize="20"
                         Cursor="Hand"

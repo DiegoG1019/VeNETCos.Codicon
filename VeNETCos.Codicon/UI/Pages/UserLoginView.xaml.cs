@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using VeNETCos.Codicon.Database.Contexts;
 using VeNETCos.Codicon.UI.ViewModels;
 
 namespace VeNETCos.Codicon.UI.Pages
@@ -25,6 +27,8 @@ namespace VeNETCos.Codicon.UI.Pages
 
         public MainModel DataModel { get; private set; }
 
+        private DispatcherTimer Timer = new();
+
         public UserLoginView()
         {
             InitializeComponent();
@@ -32,6 +36,25 @@ namespace VeNETCos.Codicon.UI.Pages
             Log.Information("Initialized Login Screen");
 
             DataContextChanged += UserLoginView_DataContextChanged;
+            LoginButton.KeyUp += LoginButton_KeyUp;
+
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += Timer_Tick;
+        }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (AppStartingTask is not null && AppStartingTask.IsCompleted)
+            {
+                Timer.Stop();
+                DataModel.NavigateToMainScreen();
+            }
+        }
+
+        private void LoginButton_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.DeadCharProcessedKey is Key.Enter)
+                ValidateForm();
         }
 
         private void UserLoginView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -47,14 +70,35 @@ namespace VeNETCos.Codicon.UI.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (DataModel.Validate() is false) return;
+            ValidateForm();
+        }
 
-            ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
+        bool FormValidating = false;
+        Task? AppStartingTask = null;
+        private void ValidateForm()
+        {
+            if (DataModel.Validate() is false || FormValidating)
+            {
+                ErrorLabel.Content = string.Join("\n*", DataModel.Errors);
+                return;
+            }
 
-            AppConfiguration.UserProfile = DataModel.UserLogin.Name!.Trim();
-            Log.Information("Set user login information to {login}", AppConfiguration.UserProfile);
+            FormValidating = true;
+            LoginButton.IsEnabled = false;
+            var name = DataModel.UserLogin.Name!.Trim();
 
-            DataModel.NavigateToMainScreen();
+            Timer.Start();
+            AppStartingTask = Task.Run(() =>
+            {
+                AppConfiguration.UserProfile = name;
+                Log.Information("Set user login information to {login}", AppConfiguration.UserProfile);
+                using (AppServices.GetServices<AppDbContext>().Get(out var db))
+                {
+                    var c = db.PrimaryBox.Color;
+                    db.PrimaryBox.Color = c;
+                    db.SaveChanges();
+                } // We force the app to use the DB, initializing it
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using VeNETCos.Codicon.Configuration.LanguageModules;
 
 namespace VeNETCos.Codicon.UI.ViewModels;
 
@@ -12,10 +13,15 @@ public abstract class BaseViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public Lang Language => Configuration.Language.CurrentLanguage;
+
     protected BaseViewModel()
     {
         Log = LoggerStore.GetLogger(this);
+        Configuration.Language.LanguageChanged += Language_LanguageChanged;
     }
+
+    private void Language_LanguageChanged() => NotifyPropertyChanged(nameof(Language));
 
     protected virtual void OnInit()
     {

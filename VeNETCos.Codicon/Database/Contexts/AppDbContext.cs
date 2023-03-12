@@ -151,7 +151,7 @@ public class AppDbContext : DbContext
             WriteAndGetNewGarbage("First");
             WriteAndGetNewGarbage("First");
 
-            int maxd = rand.Next(4, 7);
+            int maxd = rand.Next(2, 4);
             CreateFolders(dir, maxd);
 
             Log.Information("Finished seeding file data for database");
@@ -160,7 +160,7 @@ public class AppDbContext : DbContext
 
             void CreateFolders(string head, int depth)
             {
-                int folders = rand.Next(0, 5);
+                int folders = rand.Next(0, 2);
                 if (folders <= 0) return;
 
                 Log.Debug("Creating {folders} folders at depth {depth} under {head}", folders, depth, head);
